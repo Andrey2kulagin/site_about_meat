@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+def index(request):
+    return render(request,"butcher_shop_app/index.html")
+

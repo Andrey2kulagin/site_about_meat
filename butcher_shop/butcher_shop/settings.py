@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'butcher_shop_app',
+    'recipes',
+    'blog',
 ]
 
 MIDDLEWARE = [
