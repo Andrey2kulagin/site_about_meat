@@ -9,8 +9,14 @@
 <div>
     <h1><a href="#">{{product}}</a></h1>
     <h2>{{product.cost}}</h2>
+
 </div>
 <br>
 {% endfor %}
+<form method="post">
+    {% csrf_token %}
+    {{form}}
+</form>
+
 </body>
 </html>
