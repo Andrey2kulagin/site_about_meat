@@ -5,6 +5,12 @@
     <title>Главная страница</title>
 </head>
 <body>
-<h1>Главная страница</h1>
+{% for product in products %}
+<div>
+    <h1><a href="#">{{product}}</a></h1>
+    <h2>{{product.cost}}</h2>
+</div>
+<br>
+{% endfor %}
 </body>
 </html>
