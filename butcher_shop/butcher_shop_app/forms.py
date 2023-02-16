@@ -1,13 +1,16 @@
 from django import forms
 from .models import Application
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
 
 
 class ApplicationForm(forms.ModelForm):
     name = forms.CharField(max_length=200,
-                           widget=forms.TextInput(attrs={"class": "username__input", "placeholder": "Как к вам можно обращаться?"}))
+                           widget=forms.TextInput(
+                               attrs={"class": "username__input", "placeholder": "Как к вам можно обращаться?"}))
     phone_number = forms.CharField(max_length=12, widget=forms.TextInput(
         attrs={"class": "contact__input", "placeholder": "Укажите ваши контакты"}))
-    comment = forms.CharField(max_length=12, widget=forms.Textarea(
+    comment = forms.CharField(max_length=250, widget=forms.Textarea(
         attrs={"class": "contact__input", "placeholder": "Комментарии"}))
 
     class Meta:
@@ -17,3 +20,42 @@ class ApplicationForm(forms.ModelForm):
             "phone_number",
             "comment"
         ]
+
+
+class UserRegistrationsForm(UserCreationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={"autocomplete": "username", "class": "username__input",
+                                                             "placeholder": "Введите имя пользователя"}))
+    first_name = forms.CharField(widget=forms.TextInput(
+        attrs={"autocomplete": "name", "class": "name__input", "placeholder": "Как к вам можно обращаться?"}))
+    email = forms.EmailField(widget=forms.TextInput(
+        attrs={"autocomplete": "email", "class": "email__input", "placeholder": "Введите email"}))
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "new-password", "class": "password__input", "placeholder": "Введите пароль"}),
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password", "class": "password__input",
+                                          "placeholder": "Введите пароль ещё раз"}),
+    )
+
+    class Meta:
+        model = User
+        fields = ['username',
+                  'first_name',
+                  'email',
+                  'password1',
+                  'password2'
+                  ]
+
+
+class UserLoginForm(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'username__input', 'placeholder': 'Введите имя пользователя'}))
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "password", 'class': "password__input", 'placeholder': "Введите пароль"}),
+    )
+
+    class Meta:
+        model = User
+        fields = ('username', 'password')
