@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Product
 from .forms import ApplicationForm, UserRegistrationsForm, UserLoginForm
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -31,7 +32,7 @@ def registrations(request):
 def user_login(request):
     context = {}
     if request.method == "POST":
-        login_form = UserLoginForm(request.POST)
+        login_form = UserLoginForm(data=request.POST)
         if login_form.is_valid():
             user = login_form.get_user()
             login(request, user)
@@ -46,3 +47,8 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect("http://127.0.0.1:8000/")
+
+
+@login_required(login_url='http://127.0.0.1:8000/login')
+def shopping_cart(request):
+    return render(request, "butcher_shop_app/shopping_cart.html")

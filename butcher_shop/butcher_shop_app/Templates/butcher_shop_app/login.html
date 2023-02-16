@@ -6,12 +6,13 @@
 </head>
 <body>
 {{errors}}
-{{user}}
+{{request.user}}
 <form method="post">
     {% csrf_token %}
     {{login_form.username}}<br>
     {{login_form.password}}<br>
   <button type="submit">Войти</button>
 </form>
+<a href="http://127.0.0.1:8000/registrations">Регистрация</a>
 </body>
 </html>

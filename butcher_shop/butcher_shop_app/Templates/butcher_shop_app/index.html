@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends 'butcher_shop_app/base.html' %}
+{% block title %}
     <title>Главная страница</title>
-</head>
-<body>
+{% endblock %}
+{% block content %}
 {% for product in products %}
 <div>
     <h1><a href="#">{{product}}</a></h1>
@@ -18,6 +16,5 @@
     {{form}}
     <button type="submit">Оставить заявку</button>
 </form>
+{% endblock %}
 
-</body>
-</html>

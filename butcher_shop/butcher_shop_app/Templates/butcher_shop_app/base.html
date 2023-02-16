@@ -2,9 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    {% block title %}
+    {%endblock%}
 </head>
 <body>
-
+<header>
+    <span>{{request.user}}</span>
+    {% if  request.user.is_authenticated == False %}
+    <a href="http://127.0.0.1:8000/login">Войти</a>
+    {% else %}
+        <a href="http://127.0.0.1:8000/logout">Выйти</a>
+    {% endif %}
+  </header>
+{% block content %}
+{%endblock%}
 </body>
 </html>
