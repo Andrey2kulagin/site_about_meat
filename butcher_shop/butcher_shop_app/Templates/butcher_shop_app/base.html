@@ -9,9 +9,9 @@
 <header>
     <span>{{request.user}}</span>
     {% if  request.user.is_authenticated == False %}
-    <a href="http://127.0.0.1:8000/login">Войти</a>
+    <a href="http://127.0.0.1:8000/login?next={{request.path}}">Войти</a>
     {% else %}
-        <a href="http://127.0.0.1:8000/logout">Выйти</a>
+        <a href="http://127.0.0.1:8000/logout?next={{request.path}}">Выйти</a>
     {% endif %}
   </header>
 {% block content %}

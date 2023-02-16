@@ -11,6 +11,7 @@
     {% csrf_token %}
     {{login_form.username}}<br>
     {{login_form.password}}<br>
+    <input type="hidden" name="next" value="{{ request.GET.next }}">
   <button type="submit">Войти</button>
 </form>
 <a href="http://127.0.0.1:8000/registrations">Регистрация</a>

@@ -22,6 +22,9 @@ def registrations(request):
         reg_form = UserRegistrationsForm(request.POST)
         if reg_form.is_valid():
             reg_form.save()
+            user = reg_form.username
+            login(request, user)
+            return redirect("http://127.0.0.1:8000/" + request.GET.get("next", None))
         else:
             context["errors"] = reg_form.errors
     reg_form = UserRegistrationsForm()
@@ -36,7 +39,7 @@ def user_login(request):
         if login_form.is_valid():
             user = login_form.get_user()
             login(request, user)
-            return redirect("http://127.0.0.1:8000/")
+            return redirect("http://127.0.0.1:8000/"+request.GET.get("next", None))
         else:
             context["errors"] = login_form.errors
     login_form = UserLoginForm()
