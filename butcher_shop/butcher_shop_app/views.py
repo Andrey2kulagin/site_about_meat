@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Product
-from .forms import ApplicationForm, UserRegistrationsForm, UserLoginForm
+from .forms import ApplicationForm, UserRegistrationsForm, UserLoginForm, UserAdditionalInfoForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 
@@ -20,15 +20,21 @@ def registrations(request):
     context = {}
     if request.method == "POST":
         reg_form = UserRegistrationsForm(request.POST)
+        additional_info_form = UserAdditionalInfoForm(request.POST)
         if reg_form.is_valid():
             user = reg_form.save()
+            additional_info = additional_info_form.save(commit=False)
+            additional_info.user = user
+            additional_info.save()
             login(request, user)
             next_str = request.GET.get("next", "")
             return redirect("http://127.0.0.1:8000" + next_str)
         else:
             context["errors"] = reg_form.errors
     reg_form = UserRegistrationsForm()
+    additional_info_form = UserAdditionalInfoForm()
     context["reg_form"] = reg_form
+    context["add_info_form"] = additional_info_form
     return render(request, "butcher_shop_app/registrations.html", context)
 
 

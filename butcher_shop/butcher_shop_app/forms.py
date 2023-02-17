@@ -1,5 +1,5 @@
 from django import forms
-from .models import Application
+from .models import Application, UserAdditionalInfo
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
@@ -59,3 +59,14 @@ class UserLoginForm(AuthenticationForm):
     class Meta:
         model = User
         fields = ('username', 'password')
+
+
+class UserAdditionalInfoForm(forms.ModelForm):
+    phone_number = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'username__input', 'placeholder': 'Введите телефон для связи'}))
+    address = forms.CharField(required=False, max_length=250, widget=forms.Textarea(
+        attrs={"class": "contact__input", "placeholder": "Ваш адрес"}))
+
+    class Meta:
+        model = UserAdditionalInfo
+        fields = ("phone_number", "address")

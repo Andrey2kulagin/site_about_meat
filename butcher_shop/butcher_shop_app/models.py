@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Product(models.Model):
@@ -17,3 +18,9 @@ class Application(models.Model):
 
     def __str__(self):
         return self.phone_number
+
+
+class UserAdditionalInfo(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    phone_number = models.CharField(max_length=12, default="")
+    address = models.CharField(max_length=250, default="")
