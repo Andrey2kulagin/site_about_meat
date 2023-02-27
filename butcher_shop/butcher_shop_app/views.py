@@ -6,13 +6,26 @@ from django.contrib.auth.decorators import login_required
 
 
 def index(request):
+    context = {}
+
     products = Product.objects.all()
-    if request.method == "POST":
-        form = ApplicationForm(request.POST)
-        if form.is_valid():
-            form.save()
+    if request.method == "POST" :
+        form_type = request.POST.get("form_type")
+        if form_type=='application':
+            form = ApplicationForm(request.POST)
+            if form.is_valid():
+                form.save()
+        elif form_type =='shopping_cart':
+            id = int( request.POST.get("product_id", "0"))
+            count = int(request.POST.get("count","0"))
+            add_to_shopping_cart(request, id, count)
     form = ApplicationForm()
-    context = {'products': products, "form": form}
+    shopping_cart_eq = request.session.get('shopping_cart',[])
+    count_goods_in_cart = len(shopping_cart_eq)
+    context['products'] = products
+    context["form"]=  form
+    context["shopping_cart_eq"] = shopping_cart_eq
+    context["count_goods_in_cart"] = count_goods_in_cart
     return render(request, "butcher_shop_app/index.html", context)
 
 
@@ -63,3 +76,16 @@ def user_logout(request):
 @login_required(login_url='http://127.0.0.1:8000/login')
 def shopping_cart(request):
     return render(request, "butcher_shop_app/shopping_cart.html")
+
+def add_to_shopping_cart(request, id: int, count:int):
+    if not request.session.get('shopping_cart'):
+        request.session['shopping_cart'] = []
+    is_in_list = 0
+    cure_shopping_cart_dict = request.session['shopping_cart']
+    for i in  cure_shopping_cart_dict:
+        if i['id']==id:
+            is_in_list = 1
+            i['count']+=count
+    if not is_in_list:
+        cure_shopping_cart_dict.append({"id": id, 'count':count})
+    request.session['shopping_cart'] = cure_shopping_cart_dict
