@@ -1,6 +1,6 @@
 {% extends 'butcher_shop_app/base.html' %}
 {% block title %}
-    <title>Главная страница</title>
+<title>Главная страница</title>
 {% endblock %}
 
 {% block content %}
@@ -21,7 +21,8 @@
         {% csrf_token %}
         <input type="hidden" name="form_type" value="shopping_cart">
         <input type="hidden" name="product_id" value="{{product.id}}">
-        <input name="count"  type="number" min="1" >
+        <input type="hidden" name="product_name" value="{{product.name}}">
+        <input name="count" type="number" min="1">
         <button type="submit">Добавить в корзину</button>
     </form>
 

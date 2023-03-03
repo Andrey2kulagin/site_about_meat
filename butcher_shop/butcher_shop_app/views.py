@@ -19,9 +19,10 @@ def index(request):
             product_id = int(request.POST.get("product_id", "0"))
             count = int(request.POST.get("count", "0"))
             if not request.user.is_authenticated:
-                add_to_shopping_cart(request, product_id, count)
+                product = request.POST.get("product_name", "")
+                add_to_shopping_cart(request, product_id, count, product)
             else:
-                added_product = {'id': product_id, 'count':count }
+                added_product = {'id': product_id, 'count': count}
                 user_cart_in_def_cart = GoodsInShoppingCart.objects.filter(user=request.user)
                 add_old_products_to_log_cart(added_product, user_cart_in_def_cart, request.user)
     form = ApplicationForm()
@@ -92,7 +93,7 @@ def shopping_cart(request):
     return render(request, "butcher_shop_app/shopping_cart.html")
 
 
-def add_to_shopping_cart(request, id: int, count: int):
+def add_to_shopping_cart(request, id: int, count: int, product: str):
     if not request.session.get('shopping_cart'):
         request.session['shopping_cart'] = []
     is_in_list = 0
@@ -102,7 +103,7 @@ def add_to_shopping_cart(request, id: int, count: int):
             is_in_list = 1
             i['count'] += count
     if not is_in_list:
-        cure_shopping_cart_dict.append({"id": id, 'count': count})
+        cure_shopping_cart_dict.append({"id": id, 'count': count, 'product': product})
     request.session['shopping_cart'] = cure_shopping_cart_dict
 
 
