@@ -6,3 +6,5 @@ admin.site.register(Application)
 admin.site.register(UserAdditionalInfo)
 admin.site.register(Session)
 admin.site.register(GoodsInShoppingCart)
+
+

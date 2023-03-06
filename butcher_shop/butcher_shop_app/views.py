@@ -88,9 +88,76 @@ def user_logout(request):
     return redirect("http://127.0.0.1:8000" + next_str)
 
 
-@login_required(login_url='http://127.0.0.1:8000/login')
 def shopping_cart(request):
-    return render(request, "butcher_shop_app/shopping_cart.html")
+    context = {}
+    if request.method == "POST":
+        form_type = request.POST.get("form_type")
+        if form_type == "goods_count_minus":
+            goods_count_minus_plus(request, -1)
+        if form_type == 'goods_count':
+            change_goods_count(request)
+        if form_type == 'goods_count_plus':
+            goods_count_minus_plus(request, 1)
+        if form_type == 'del_good':
+            del_good(request)
+    if request.user.is_authenticated:
+        user_cart = GoodsInShoppingCart.objects.filter(user=request.user)
+        context["cart"] = user_cart
+        context["count_goods_in_cart"] = len(user_cart)
+    else:
+        shopping_cart_eq = request.session.get('shopping_cart', [])
+        count_goods_in_cart = len(shopping_cart_eq)
+        context["cart"] = shopping_cart_eq
+        context["count_goods_in_cart"] = count_goods_in_cart
+    return render(request, "butcher_shop_app/shopping_cart.html", context)
+
+
+def goods_count_minus_plus(request, change):
+    product_id = request.POST.get("product_id")
+    if request.user.is_authenticated:
+        product = GoodsInShoppingCart.objects.get(id=product_id)
+        product.count += change
+        product.save()
+    else:
+        if not request.session.get('shopping_cart'):
+            request.session['shopping_cart'] = []
+        cure_shopping_cart_dict = request.session['shopping_cart']
+        for product in cure_shopping_cart_dict:
+            if product['id'] == product_id:
+                product['count'] += change
+        request.session['shopping_cart'] = cure_shopping_cart_dict
+
+
+def change_goods_count(request):
+    product_id = request.POST.get("product_id")
+    new_goods_count = int(request.POST.get("goods_count"))
+    if request.user.is_authenticated:
+        product = GoodsInShoppingCart.objects.get(id=product_id)
+        product.count = new_goods_count
+        product.save()
+    else:
+        if not request.session.get('shopping_cart'):
+            request.session['shopping_cart'] = []
+        cure_shopping_cart_dict = request.session['shopping_cart']
+        for product in cure_shopping_cart_dict:
+            if product['id'] == product_id:
+                product['count'] = new_goods_count
+        request.session['shopping_cart'] = cure_shopping_cart_dict
+
+
+def del_good(request):
+    product_id = request.POST.get("product_id")
+    if request.user.is_authenticated:
+        product = GoodsInShoppingCart.objects.get(id=product_id)
+        product.delete()
+    else:
+        if not request.session.get('shopping_cart'):
+            request.session['shopping_cart'] = []
+        cure_shopping_cart_dict = request.session['shopping_cart']
+        for product in cure_shopping_cart_dict:
+            if product['id'] == product_id:
+                del product
+        request.session['shopping_cart'] = cure_shopping_cart_dict
 
 
 def add_to_shopping_cart(request, id: int, count: int, product: str):

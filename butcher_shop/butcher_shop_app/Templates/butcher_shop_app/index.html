@@ -7,12 +7,7 @@
 {{count_goods_in_cart}}
 {{shopping_cart_eq}}
 <br><br>
-{{cart_len}}<br>
-{% for el in cart %}
-<br>
-{{el.product}}
-{{el.count}}
-{% endfor %}
+
 {% for product in products %}
 <div>
     <h1><a href="#">{{product}}</a></h1>
