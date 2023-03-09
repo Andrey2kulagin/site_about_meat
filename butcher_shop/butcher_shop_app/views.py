@@ -117,8 +117,9 @@ def goods_count_minus_plus(request, change):
             request.session['shopping_cart'] = []
         cure_shopping_cart_dict = request.session['shopping_cart']
         for product in cure_shopping_cart_dict:
-            if product['id'] == product_id:
+            if product['id'] == int(product_id):
                 product['count'] += change
+                print(cure_shopping_cart_dict)
         request.session['shopping_cart'] = cure_shopping_cart_dict
 
 
@@ -134,7 +135,7 @@ def change_goods_count(request):
             request.session['shopping_cart'] = []
         cure_shopping_cart_dict = request.session['shopping_cart']
         for product in cure_shopping_cart_dict:
-            if product['id'] == product_id:
+            if product['id'] == int(product_id):
                 product['count'] = new_goods_count
         request.session['shopping_cart'] = cure_shopping_cart_dict
 
@@ -149,8 +150,10 @@ def del_good(request):
             request.session['shopping_cart'] = []
         cure_shopping_cart_dict = request.session['shopping_cart']
         for product in cure_shopping_cart_dict:
-            if product['id'] == product_id:
-                del product
+            if product['id'] == int(product_id):
+                product.clear()
+        while {} in cure_shopping_cart_dict:
+            cure_shopping_cart_dict.remove({})
         request.session['shopping_cart'] = cure_shopping_cart_dict
 
 
