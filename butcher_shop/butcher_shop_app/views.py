@@ -119,7 +119,6 @@ def goods_count_minus_plus(request, change):
         for product in cure_shopping_cart_dict:
             if product['id'] == int(product_id):
                 product['count'] += change
-                print(cure_shopping_cart_dict)
         request.session['shopping_cart'] = cure_shopping_cart_dict
 
 
