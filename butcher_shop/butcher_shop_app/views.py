@@ -212,3 +212,12 @@ def product_list(request):
     context["categories"] = categories
     context["products"] = products
     return render(request, "butcher_shop_app/product_list.html", context)
+
+
+def product_detail(request, pk):
+    context = {}
+    product = get_object_or_404(Product, id=pk)
+    context['product'] = product
+    if request.method == "POST":
+        add_to_cart(request)
+    return render(request, 'butcher_shop_app/product_detail.html', context)

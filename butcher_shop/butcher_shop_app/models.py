@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from ckeditor.fields import RichTextField
 
 class ProductCategories(models.Model):
     category_name = models.CharField(max_length=300)
@@ -12,8 +12,10 @@ class ProductCategories(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=200)
     cost = models.PositiveIntegerField()
-    quantity = models.PositiveIntegerField()
     category_name = models.ManyToManyField(ProductCategories, default="Вне категорий")
+    description = RichTextField(default="Без описания")
+    image = models.ImageField(upload_to='img', default="img/1.png")
+
 
     def __str__(self):
         return self.name
