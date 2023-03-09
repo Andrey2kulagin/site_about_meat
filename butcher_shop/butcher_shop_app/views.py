@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, GoodsInShoppingCart
+from .models import Product, GoodsInShoppingCart, ProductCategories
 from .forms import ApplicationForm, UserRegistrationsForm, UserLoginForm, UserAdditionalInfoForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -16,30 +16,24 @@ def index(request):
             if form.is_valid():
                 form.save()
         elif form_type == 'shopping_cart':
-            product_id = int(request.POST.get("product_id", "0"))
-            count = int(request.POST.get("count", "0"))
-            if not request.user.is_authenticated:
-                product = request.POST.get("product_name", "")
-                add_to_shopping_cart(request, product_id, count, product)
-            else:
-                added_product = {'id': product_id, 'count': count}
-                user_cart_in_def_cart = GoodsInShoppingCart.objects.filter(user=request.user)
-                add_old_products_to_log_cart(added_product, user_cart_in_def_cart, request.user)
+            add_to_cart(request)
     form = ApplicationForm()
-
-    if request.user.is_authenticated:
-        user_cart = GoodsInShoppingCart.objects.filter(user=request.user)
-        context["cart"] = user_cart
-        context["count_goods_in_cart"] = len(user_cart)
-    else:
-        shopping_cart_eq = request.session.get('shopping_cart', [])
-        count_goods_in_cart = len(shopping_cart_eq)
-        context["cart"] = shopping_cart_eq
-        context["count_goods_in_cart"] = count_goods_in_cart
     context['products'] = products
     context["form"] = form
 
     return render(request, "butcher_shop_app/index.html", context)
+
+
+def add_to_cart(request):
+    product_id = int(request.POST.get("product_id", "0"))
+    count = int(request.POST.get("count", "0"))
+    if not request.user.is_authenticated:
+        product = request.POST.get("product_name", "")
+        add_to_shopping_cart(request, product_id, count, product)
+    else:
+        added_product = {'id': product_id, 'count': count}
+        user_cart_in_def_cart = GoodsInShoppingCart.objects.filter(user=request.user)
+        add_old_products_to_log_cart(added_product, user_cart_in_def_cart, request.user)
 
 
 def registrations(request):
@@ -202,3 +196,19 @@ def add_old_products_to_log_cart(added_product: dict, user_cart_in_def_cart, use
             product_in_log_cart.save()
     if not is_in_cart:
         add_new_product_to_log_cart(added_product, user)
+
+
+def product_list(request):
+    context = {}
+    user_categories = request.GET.getlist("category", None)
+    if user_categories:
+        selected_categories = ProductCategories.objects.filter(category_name__in=user_categories)
+        products = Product.objects.filter(category_name__in=selected_categories)
+    else:
+        products = Product.objects.all()
+    if request.method == "POST":
+        add_to_cart(request)
+    categories = ProductCategories.objects.all()
+    context["categories"] = categories
+    context["products"] = products
+    return render(request, "butcher_shop_app/product_list.html", context)

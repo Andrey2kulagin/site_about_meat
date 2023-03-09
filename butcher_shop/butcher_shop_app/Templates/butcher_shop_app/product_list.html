@@ -1,14 +1,19 @@
 {% extends 'butcher_shop_app/base.html' %}
 {% block title %}
-<title>Главная страница</title>
+<title>Список наших товаров</title>
 {% endblock %}
 
 {% block content %}
-<br><br>
-
+<form  method="get">
+    {% csrf_token %}
+    {% for category in categories %}
+    <input type="checkbox" value="{{category}}" name="category" >
+    <span>{{category}}</span>
+    {% endfor %}
+    <button type="submit">Отфильтровать</button>
+</form>
 {% for product in products %}
-<div>
-    <h1><a href="#">{{product}}</a></h1>
+<h1><a href="#">{{product}}</a></h1>
     <h2>{{product.cost}}</h2>
     <form method="post">
         {% csrf_token %}
@@ -18,15 +23,5 @@
         <input name="count" type="number" min="1">
         <button type="submit">Добавить в корзину</button>
     </form>
-
-</div>
-<br>
 {% endfor %}
-<form method="post">
-    {% csrf_token %}
-    <input type="hidden" name="form_type" value="application">
-    {{form}}
-    <button type="submit">Оставить заявку</button>
-</form>
 {% endblock %}
-
