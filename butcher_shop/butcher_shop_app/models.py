@@ -2,10 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class ProductCategories(models.Model):
+    category_name = models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.category_name
+
+
 class Product(models.Model):
     name = models.CharField(max_length=200)
     cost = models.PositiveIntegerField()
     quantity = models.PositiveIntegerField()
+    category_name = models.ManyToManyField(ProductCategories, default="Вне категорий")
 
     def __str__(self):
         return self.name
@@ -30,8 +38,3 @@ class GoodsInShoppingCart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     count = models.PositiveIntegerField(default=0)
-
-
-
-
-
