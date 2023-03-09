@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 
+
 class ProductCategories(models.Model):
     category_name = models.CharField(max_length=300)
 
@@ -15,7 +16,6 @@ class Product(models.Model):
     category_name = models.ManyToManyField(ProductCategories, default="Вне категорий")
     description = RichTextField(default="Без описания")
     image = models.ImageField(upload_to='img', default="img/1.png")
-
 
     def __str__(self):
         return self.name
@@ -40,3 +40,18 @@ class GoodsInShoppingCart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     count = models.PositiveIntegerField(default=0)
+
+
+class Order(models.Model):
+    my_id = models.CharField(max_length=250, primary_key=True)
+    created = models.DateTimeField(auto_now_add=True)
+    is_processed = models.BooleanField(default=False)
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    user_phone = models.CharField(max_length=20)
+    comment = models.TextField()
+
+
+class OrderItems(models.Model):
+    order_id = models.ForeignKey(Order, on_delete=models.CASCADE)
+    product_id = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    product_count = models.PositiveIntegerField()

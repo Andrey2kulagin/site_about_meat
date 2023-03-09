@@ -3,6 +3,7 @@
 <title>Корзина</title>
 {% endblock %}
 {% block content %}
+{{shopping_cart_eq}}
 {{cart_len}}<br>
 {% if count_goods_in_cart == 0 %}
 <h1>Вы пока ничего не добавили</h1>

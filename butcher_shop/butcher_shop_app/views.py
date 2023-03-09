@@ -221,3 +221,7 @@ def product_detail(request, pk):
     if request.method == "POST":
         add_to_cart(request)
     return render(request, 'butcher_shop_app/product_detail.html', context)
+
+
+def order_create(request):
+    pass
