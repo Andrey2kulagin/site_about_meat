@@ -3,9 +3,16 @@
 <title>{{poduct.name}}</title>
 {% endblock %}
 {% block content %}
-{{errors}}
+
+{{total_cost}}<br>
+{{product_count}}<br>
+{{product_count}}<br>
+{% if add_product_in_cart%}
+{{add_product_in_cart}} <a href="http://127.0.0.1:8000/product_list">К каталогу</a>
+{% else %}
 <form method="post">
-    {{form.errors}}
+
+    {{errors}}
     {% csrf_token %}
     {{form.phone_number}}
     {{form.address}}
@@ -13,4 +20,5 @@
     {{form.comment}}
     <button type="submit">подтвердить</button>
 </form>
+{% endif %}
 {% endblock %}

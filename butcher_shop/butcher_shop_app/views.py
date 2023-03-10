@@ -229,17 +229,44 @@ def product_detail(request, pk):
 
 def order_create_view(request):
     context = {}
+    context.update(get_cart_sum_count_kgs(request))
+
     if request.method == "POST":
-        # надо заполнить айтемы+удалить товары из корзины
-        # аполнение формы и редирект на страницу поздравления с успешным заказом
         form = OrderForm(request.POST)
-        print(form.errors)
-        context["errors"] = form.errors
         if form.is_valid():
             create_order(request, form)
+        else:
+            context["errors"] = form.errors
     form = init_order_form(request)
-    context["form"] = form
+    if context["product_count"]:
+        context["form"] = form
+    else:
+        context["add_product_in_cart"] = "Для заказа, добавьте товары в корзину, пожалуйста"
     return render(request, "butcher_shop_app/order_create.html", context)
+
+
+def get_cart_sum_count_kgs(request):
+    cart_info = {}
+    products_count_kg = 0
+    total_cost = 0
+    count = 0
+    if request.user.is_authenticated:
+        cart = GoodsInShoppingCart.objects.filter(user=request.user)
+        for product in cart:
+            count += 1
+            products_count_kg += product.count
+            total_cost += products_count_kg * product.product.cost
+    else:
+        cart = request.session["shopping_cart"]
+        for product in cart:
+            count += 1
+            products_count_kg += product["count"]
+            product_cost = Product.objects.get(id=product["id"]).cost
+            total_cost += products_count_kg * product_cost
+    cart_info["products_count_kg"] = products_count_kg
+    cart_info["total_cost"] = total_cost
+    cart_info["product_count"] = count
+    return cart_info
 
 
 def create_order(request, form):
