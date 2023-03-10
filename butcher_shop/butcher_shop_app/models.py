@@ -47,7 +47,9 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     is_processed = models.BooleanField(default=False)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    user_phone = models.CharField(max_length=20)
+    phone_number = models.CharField(max_length=20)
+    address = models.TextField()
+    delivery_date = models.DateTimeField()
     comment = models.TextField()
 
 

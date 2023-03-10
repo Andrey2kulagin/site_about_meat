@@ -1,5 +1,5 @@
 from django import forms
-from .models import Application, UserAdditionalInfo
+from .models import Application, UserAdditionalInfo, Order
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
@@ -70,3 +70,18 @@ class UserAdditionalInfoForm(forms.ModelForm):
     class Meta:
         model = UserAdditionalInfo
         fields = ("phone_number", "address")
+
+
+class OrderForm(forms.ModelForm):
+    phone_number = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'username__input', 'placeholder': 'Введите телефон для связи'}))
+    address = forms.CharField(required=False, max_length=250, widget=forms.Textarea(
+        attrs={"class": "contact__input", "placeholder": "Адресс доставки"}))
+    delivery_date = forms.DateTimeField(label="Дата доставки", widget=forms.DateTimeInput(
+        attrs={"class": "date_input", }))
+    comment = forms.CharField(max_length=250, widget=forms.Textarea(
+        attrs={"class": "comment_input", "placeholder": "Комментарии"}))
+
+    class Meta:
+        model = Order
+        fields = ("phone_number", "address", "delivery_date", "comment")

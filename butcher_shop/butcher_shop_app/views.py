@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, GoodsInShoppingCart, ProductCategories
-from .forms import ApplicationForm, UserRegistrationsForm, UserLoginForm, UserAdditionalInfoForm
+from .models import Product, GoodsInShoppingCart, ProductCategories, UserAdditionalInfo, Order
+from .forms import ApplicationForm, UserRegistrationsForm, UserLoginForm, UserAdditionalInfoForm, OrderForm
 from django.contrib.auth import login, logout
+from django.contrib.auth.models import User
+from datetime import date
 from django.contrib.auth.decorators import login_required
 
 
@@ -226,4 +228,46 @@ def product_detail(request, pk):
 
 
 def order_create(request):
+    context = {}
+    if request.method == "POST":
+        # надо заполнить айтемы+удалить товары из корзины
+        # аполнение формы и редирект на страницу поздравления с успешным заказом
+        form = OrderForm(request.POST)
+        form.save(commit=False)
+        form.user = request.user
+        form.id = gen_order_id(request)
+        form.save()
+        # return redirect()
+    form = init_order_form(request)
+
+
+def init_order_form(request):
+    form = OrderForm()
+    if request.user.is_authenticated:
+        user = UserAdditionalInfo.objects.get(user=request.user)
+        user_base = User.objects.get(user=request.user)
+        phone_number = user.phone_number
+        address = user.address
+        name = user_base.name
+        if phone_number:
+            form.phone_number = phone_number
+        if address:
+            form.address = address
+        if name:
+            form.name = name
+    return form
+
+
+def gen_order_id(request):
+    order_id = str(date.today())
+    order_id += str(request.user)
+    order_id += str(len(Order.objects.filter(created=date.today())) + 1)
+    return order_id
+
+
+def from_cart_to_order(request):
+    pass
+
+
+def dell_cart_after_order(request):
     pass
