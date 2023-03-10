@@ -72,12 +72,17 @@ class UserAdditionalInfoForm(forms.ModelForm):
         fields = ("phone_number", "address")
 
 
+class MyDateInput(forms.DateInput):
+    input_type = 'date'
+    format = '%Y-%m-%d'
+
+
 class OrderForm(forms.ModelForm):
     phone_number = forms.CharField(widget=forms.TextInput(
         attrs={'class': 'username__input', 'placeholder': 'Введите телефон для связи'}))
     address = forms.CharField(required=False, max_length=250, widget=forms.Textarea(
         attrs={"class": "contact__input", "placeholder": "Адресс доставки"}))
-    delivery_date = forms.DateTimeField(label="Дата доставки", widget=forms.DateTimeInput(
+    delivery_date = forms.DateTimeField(label="Дата доставки", widget=MyDateInput(
         attrs={"class": "date_input", }))
     comment = forms.CharField(max_length=250, widget=forms.Textarea(
         attrs={"class": "comment_input", "placeholder": "Комментарии"}))

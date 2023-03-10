@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, GoodsInShoppingCart, ProductCategories, UserAdditionalInfo, Order
+from .models import Product, GoodsInShoppingCart, ProductCategories, UserAdditionalInfo, Order, OrderItems
 from .forms import ApplicationForm, UserRegistrationsForm, UserLoginForm, UserAdditionalInfoForm, OrderForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
@@ -227,34 +227,49 @@ def product_detail(request, pk):
     return render(request, 'butcher_shop_app/product_detail.html', context)
 
 
-def order_create(request):
+def order_create_view(request):
     context = {}
     if request.method == "POST":
         # надо заполнить айтемы+удалить товары из корзины
         # аполнение формы и редирект на страницу поздравления с успешным заказом
         form = OrderForm(request.POST)
-        form.save(commit=False)
-        form.user = request.user
-        form.id = gen_order_id(request)
-        form.save()
-        # return redirect()
+        print(form.errors)
+        context["errors"] = form.errors
+        if form.is_valid():
+            create_order(request, form)
     form = init_order_form(request)
+    context["form"] = form
+    return render(request, "butcher_shop_app/order_create.html", context)
+
+
+def create_order(request, form):
+    order_id = gen_order_id(request)
+    form = form.save(commit=False)
+    if request.user.is_authenticated:
+        form.user = request.user
+    form.my_id = order_id
+    form.created = date.today()
+    print(order_id)
+    form.save()
+    from_cart_to_order(request, order_id)
+    dell_cart_after_order(request)
 
 
 def init_order_form(request):
-    form = OrderForm()
+    initial_dict = {}
     if request.user.is_authenticated:
         user = UserAdditionalInfo.objects.get(user=request.user)
-        user_base = User.objects.get(user=request.user)
+        user_base = User.objects.get(username=request.user)
         phone_number = user.phone_number
         address = user.address
-        name = user_base.name
+        name = user_base.first_name
         if phone_number:
-            form.phone_number = phone_number
+            initial_dict["phone_number"] = phone_number
         if address:
-            form.address = address
+            initial_dict["address"] = address
         if name:
-            form.name = name
+            initial_dict["name"] = name
+    form = OrderForm(initial_dict)
     return form
 
 
@@ -265,9 +280,31 @@ def gen_order_id(request):
     return order_id
 
 
-def from_cart_to_order(request):
-    pass
+def from_cart_to_order(request, order_id):
+    order = Order.objects.get(my_id=order_id)
+    if request.user.is_authenticated:
+        # Если пользователь авторизован
+        # перекидываем товары из корзины в бд в orderItems
+        cart = GoodsInShoppingCart.objects.filter(user=request.user)
+        for product in cart:
+            product_id = product.product
+            product_count = product.count
+            order_item = OrderItems(order_id=order, product_id=product_id, product_count=product_count)
+            order_item.save()
+    else:
+        # Иначе перекидываем из сессий
+        cart = request.session["shopping_cart"]
+        for product in cart:
+            product_id = Product.objects.get(id=product["id"])
+            product_count = int(product["count"])
+            order_item = OrderItems(order_id=order, product_id=product_id, product_count=product_count)
+            order_item.save()
 
 
 def dell_cart_after_order(request):
-    pass
+    if request.user.is_authenticated:
+        cart = GoodsInShoppingCart.objects.filter(user=request.user)
+        for product in cart:
+            product.delete()
+    else:
+        request.session["shopping_cart"] = []

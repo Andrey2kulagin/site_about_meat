@@ -43,8 +43,8 @@ class GoodsInShoppingCart(models.Model):
 
 
 class Order(models.Model):
-    my_id = models.CharField(max_length=250, primary_key=True)
-    created = models.DateTimeField(auto_now_add=True)
+    my_id = models.CharField(max_length=250)
+    created = models.DateTimeField()
     is_processed = models.BooleanField(default=False)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     phone_number = models.CharField(max_length=20)
