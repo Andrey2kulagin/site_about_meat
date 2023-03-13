@@ -168,13 +168,17 @@ def add_to_shopping_cart(request, id: int, count: int, product: str):
     if not request.session.get('shopping_cart'):
         request.session['shopping_cart'] = []
     is_in_list = 0
+    cost = Product.objects.get(id=id).cost
     cure_shopping_cart_dict = request.session['shopping_cart']
     for i in cure_shopping_cart_dict:
         if i['id'] == id:
             is_in_list = 1
             i['count'] += count
+            i['cost'] = cost
+            i['total_cost'] = i['count'] * i['cost']
     if not is_in_list:
-        cure_shopping_cart_dict.append({"id": id, 'count': count, 'product': product})
+        cure_shopping_cart_dict.append(
+            {"id": id, 'count': count, 'product': product, 'cost': cost, "total_cost": cost * count})
     request.session['shopping_cart'] = cure_shopping_cart_dict
 
 
@@ -241,11 +245,11 @@ def order_create_view(request):
         form = OrderForm(request.POST)
         if form.is_valid():
             create_order(request, form)
-            # Добавить редирект на страницу с поздравлениями
+            context["order_send_status"] = 1
+            form = init_order_form(request)
         else:
             context["errors"] = form.errors
             form = OrderForm(request.POST)
-
     if context["product_count"]:
         context["form"] = form
     else:

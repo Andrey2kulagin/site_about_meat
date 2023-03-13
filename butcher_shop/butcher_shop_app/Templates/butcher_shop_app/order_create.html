@@ -10,6 +10,10 @@
 {% if add_product_in_cart%}
 {{add_product_in_cart}} <a href="http://127.0.0.1:8000/product_list">К каталогу</a>
 {% else %}
+{% if order_send_status %}
+Заказ успешно отправлен, когда мы его получим, мы свяжемся с вами
+<a href="http://127.0.0.1:8000/">Перейти на главную страницу</a>
+{% endif %}
 <form method="post">
     {{errors}}
     {% csrf_token %}

@@ -5,7 +5,7 @@
 <br>
 <div>
     {{product.product}}
-    {{product.product.cost}} руб.\кг
+    {{product.cost}} руб.\кг
     <form method="post">
         {% csrf_token %}
         <input type="hidden" name="form_type" value="goods_count_minus">

@@ -42,6 +42,9 @@ class GoodsInShoppingCart(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     count = models.PositiveIntegerField(default=0)
 
+    def cost(self):
+        return self.product.cost
+
     def total_cost(self):
         return self.product.cost * self.count
 
