@@ -85,6 +85,11 @@ def user_logout(request):
 
 
 def shopping_cart(request):
+    context = cart_logic(request)
+    return render(request, "butcher_shop_app/shopping_cart.html", context)
+
+
+def cart_logic(request):
     context = {}
     if request.method == "POST":
         form_type = request.POST.get("form_type")
@@ -105,7 +110,8 @@ def shopping_cart(request):
         count_goods_in_cart = len(shopping_cart_eq)
         context["cart"] = shopping_cart_eq
         context["count_goods_in_cart"] = count_goods_in_cart
-    return render(request, "butcher_shop_app/shopping_cart.html", context)
+    context.update(get_cart_sum_count_kgs(request))
+    return context
 
 
 def goods_count_minus_plus(request, change):
@@ -230,18 +236,21 @@ def product_detail(request, pk):
 def order_create_view(request):
     context = {}
     context.update(get_cart_sum_count_kgs(request))
-
+    form = init_order_form(request)
     if request.method == "POST":
         form = OrderForm(request.POST)
         if form.is_valid():
             create_order(request, form)
+            # Добавить редирект на страницу с поздравлениями
         else:
             context["errors"] = form.errors
-    form = init_order_form(request)
+            form = OrderForm(request.POST)
+
     if context["product_count"]:
         context["form"] = form
     else:
         context["add_product_in_cart"] = "Для заказа, добавьте товары в корзину, пожалуйста"
+    context.update(cart_logic(request))
     return render(request, "butcher_shop_app/order_create.html", context)
 
 

@@ -4,14 +4,8 @@
 {% endblock %}
 
 {% block content %}
-{% if cart_len == 0 %}
-<span>Ваша корщина пуста</span>
-{% endif %}
-{% for product in cart %}
-{{product.product}}
-{{product.count}}
-<br>
-{% endfor %}
+корзина
+{% include "butcher_shop_app/cart_base.html" %}
 <br>
 <br>
 <br>

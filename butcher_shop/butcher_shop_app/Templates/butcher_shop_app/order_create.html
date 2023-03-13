@@ -11,7 +11,6 @@
 {{add_product_in_cart}} <a href="http://127.0.0.1:8000/product_list">К каталогу</a>
 {% else %}
 <form method="post">
-
     {{errors}}
     {% csrf_token %}
     {{form.phone_number}}
@@ -23,5 +22,7 @@
     {{form.total_kgs}}
     <button type="submit">подтвердить</button>
 </form>
+корзина
+{% include "butcher_shop_app/cart_base.html" %}
 {% endif %}
 {% endblock %}

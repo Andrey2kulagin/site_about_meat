@@ -14,6 +14,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     cost = models.PositiveIntegerField()
     category_name = models.ManyToManyField(ProductCategories, default="Вне категорий")
+    preview = RichTextField(default="Без описания", max_length=500)
     description = RichTextField(default="Без описания")
     image = models.ImageField(upload_to='img', default="img/1.png")
 
@@ -40,6 +41,9 @@ class GoodsInShoppingCart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     count = models.PositiveIntegerField(default=0)
+
+    def total_cost(self):
+        return self.product.cost * self.count
 
 
 class Order(models.Model):

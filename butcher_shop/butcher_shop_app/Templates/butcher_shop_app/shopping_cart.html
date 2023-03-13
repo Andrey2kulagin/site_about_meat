@@ -4,37 +4,5 @@
 {% endblock %}
 {% block content %}
 {{cart_len}}<br>
-{% if count_goods_in_cart == 0 %}
-<h1>Вы пока ничего не добавили</h1>
-{% endif %}
-{% for product in cart %}
-<br>
-<div>
-    {{product.product}}
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="goods_count_minus">
-        <input type="hidden" name="product_id" value="{{product.id}}">
-        <button type="submit">-</button>
-    </form>
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="goods_count">
-        <input type="hidden" name="product_id" value="{{product.id}}">
-        <input name="goods_count" type="number" min="1" value="{{product.count}}">
-    </form>
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="goods_count_plus">
-        <input type="hidden" name="product_id" value="{{product.id}}">
-        <button type="submit">+</button>
-    </form>
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="del_good">
-        <input type="hidden" name="product_id" value="{{product.id}}">
-        <button type="submit">Удалить товар из корзины</button>
-    </form>
-</div>
-{% endfor %}
+{% include "butcher_shop_app/cart_base.html" %}
 {% endblock %}
