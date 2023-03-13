@@ -51,6 +51,12 @@ class Order(models.Model):
     address = models.TextField()
     delivery_date = models.DateTimeField()
     comment = models.TextField()
+    total_cost = models.PositiveIntegerField(default=0)
+    total_items = models.PositiveIntegerField(default=0)
+    total_kgs = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.my_id
 
 
 class OrderItems(models.Model):

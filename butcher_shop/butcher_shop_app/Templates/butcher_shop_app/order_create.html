@@ -6,7 +6,7 @@
 
 {{total_cost}}<br>
 {{product_count}}<br>
-{{product_count}}<br>
+{{products_count_kg}}<br>
 {% if add_product_in_cart%}
 {{add_product_in_cart}} <a href="http://127.0.0.1:8000/product_list">К каталогу</a>
 {% else %}
@@ -18,6 +18,9 @@
     {{form.address}}
     {{form.delivery_date}}
     {{form.comment}}
+    {{form.total_cost}}
+    {{form.total_items}}
+    {{form.total_kgs}}
     <button type="submit">подтвердить</button>
 </form>
 {% endif %}

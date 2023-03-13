@@ -1,0 +1,29 @@
+{% extends 'butcher_shop_app/base.html' %}
+{% block title %}
+<title>Личный кабинет</title>
+{% endblock %}
+
+{% block content %}
+{% if cart_len == 0 %}
+<span>Ваша корщина пуста</span>
+{% endif %}
+{% for product in cart %}
+{{product.product}}
+{{product.count}}
+<br>
+{% endfor %}
+<br>
+<br>
+<br>
+{% if orders_len == 0 %}
+<span>У вас пока нет заказов </span>
+<a href="http://127.0.0.1:8000/order_create">Сделать заказ</a>
+{% endif %}
+{% for order in orders %}
+{{order.my_id}}
+{{order.created}}
+{{order.is_processed}}
+{{order.is_processed}}
+<br>
+{% endfor %}
+{% endblock %}

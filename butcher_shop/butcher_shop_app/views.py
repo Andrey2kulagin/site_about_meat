@@ -257,7 +257,7 @@ def get_cart_sum_count_kgs(request):
             products_count_kg += product.count
             total_cost += products_count_kg * product.product.cost
     else:
-        cart = request.session["shopping_cart"]
+        cart = request.session.get("shopping_cart", [])
         for product in cart:
             count += 1
             products_count_kg += product["count"]
@@ -269,17 +269,40 @@ def get_cart_sum_count_kgs(request):
     return cart_info
 
 
+def get_order_info(order):
+    """Принимается объект Order"""
+    items = OrderItems.objects.filter(order_id=order)
+    result = {}
+    total_items = 0
+    total_cost = 0
+    total_kgs = 0
+    for item in items:
+        total_items += 1
+        cure_kgs = item.product_count
+        total_kgs += cure_kgs
+        total_cost += item.product_id.cost * cure_kgs
+    result["total_items"] = total_items
+    result["total_cost"] = total_cost
+    result["total_kgs"] = total_kgs
+    return result
+
+
 def create_order(request, form):
     order_id = gen_order_id(request)
-    form = form.save(commit=False)
+    order = form.save(commit=False)
     if request.user.is_authenticated:
-        form.user = request.user
-    form.my_id = order_id
-    form.created = date.today()
-    print(order_id)
-    form.save()
+        order.user = request.user
+    order.my_id = order_id
+    order.created = date.today()
+    order.save()
     from_cart_to_order(request, order_id)
     dell_cart_after_order(request)
+    order = Order.objects.get(my_id=order_id)
+    order_info_dict = get_order_info(order)
+    order.total_cost = order_info_dict["total_cost"]
+    order.total_items = order_info_dict["total_items"]
+    order.total_kgs = order_info_dict["total_kgs"]
+    order.save()
 
 
 def init_order_form(request):
@@ -320,7 +343,7 @@ def from_cart_to_order(request, order_id):
             order_item.save()
     else:
         # Иначе перекидываем из сессий
-        cart = request.session["shopping_cart"]
+        cart = request.session.get("shopping_cart", [])
         for product in cart:
             product_id = Product.objects.get(id=product["id"])
             product_count = int(product["count"])
@@ -335,3 +358,18 @@ def dell_cart_after_order(request):
             product.delete()
     else:
         request.session["shopping_cart"] = []
+
+
+@login_required(login_url='http://127.0.0.1:8000/login')
+def lk_view(request):
+    context = {}
+    # корзина
+    context.update(get_cart_sum_count_kgs(request))
+    cart = GoodsInShoppingCart.objects.filter(user=request.user)
+    context["cart"] = cart
+    context["cart_len"] = len(cart)
+    # заказы
+    orders = Order.objects.filter(user=request.user)
+    context["orders"] = orders
+    context["orders_len"] = len(orders)
+    return render(request, "butcher_shop_app/lk.html", context)
