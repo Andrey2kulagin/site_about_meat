@@ -21,13 +21,12 @@
     <input id="product_list_form_type{{product.id}}" type="hidden" name="form_type" value="shopping_cart">
     <input id="product_list_product_id{{product.id}}" type="hidden" name="product_id" value="{{product.id}}">
     <input id="product_list_product_name{{product.id}}" type="hidden" name="product_name" value="{{product.name}}">
-    <input id="product_list_count{{product.id}}" name="count" type="number" min="1">
+    <input id="product_list_count{{product.id}}" name="count" type="number" min="1" value="1">
     <button type="submit">Добавить в корзину</button>
 </form>
 {% endfor %}
 <script>
 $(document).on('submit', 'form[id^="product_list_add_to_cart"]', function(e){
-let a = $("#product_list_product_id").val();
     e.preventDefault();
     let id = e.target.name;
     $.ajax({
@@ -44,6 +43,7 @@ let a = $("#product_list_product_id").val();
             console.log("adadas");
         },
     });
+    $(`#product_list_count${id}`).val("1")
 });
 
 
