@@ -5,6 +5,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from datetime import date
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 
 def index(request):
@@ -28,14 +29,19 @@ def index(request):
 
 def add_to_cart(request):
     product_id = int(request.POST.get("product_id", "0"))
+    print(product_id)
     count = int(request.POST.get("count", "0"))
     if not request.user.is_authenticated:
         product = request.POST.get("product_name", "")
         add_to_shopping_cart(request, product_id, count, product)
+        is_success = True
     else:
         added_product = {'id': product_id, 'count': count}
         user_cart_in_def_cart = GoodsInShoppingCart.objects.filter(user=request.user)
         add_old_products_to_log_cart(added_product, user_cart_in_def_cart, request.user)
+        is_success = True
+    if is_success:
+        return HttpResponse("Добавление в корзину прошло успешно")
 
 
 def registrations(request):
@@ -173,10 +179,14 @@ def add_to_shopping_cart(request, id: int, count: int, product: str):
     for i in cure_shopping_cart_dict:
         if i['id'] == id:
             is_in_list = 1
+
             i['count'] += count
             i['cost'] = cost
             i['total_cost'] = i['count'] * i['cost']
     if not is_in_list:
+        print("был здесь")
+        a = {"id": id, 'count': count, 'product': product, 'cost': cost, "total_cost": cost * count}
+        print(a)
         cure_shopping_cart_dict.append(
             {"id": id, 'count': count, 'product': product, 'cost': cost, "total_cost": cost * count})
     request.session['shopping_cart'] = cure_shopping_cart_dict
@@ -220,8 +230,8 @@ def product_list(request):
         products = Product.objects.filter(category_name__in=selected_categories)
     else:
         products = Product.objects.all()
-    if request.method == "POST":
-        add_to_cart(request)
+    # if request.method == "POST":
+    #   add_to_cart(request)
     categories = ProductCategories.objects.all()
     context["categories"] = categories
     context["products"] = products

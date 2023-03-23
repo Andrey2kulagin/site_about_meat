@@ -4,10 +4,10 @@
 {% endblock %}
 
 {% block content %}
-<form  method="get">
+<form method="get">
     {% csrf_token %}
     {% for category in categories %}
-    <input type="checkbox" value="{{category}}" name="category" >
+    <input type="checkbox" value="{{category}}" name="category">
     <span>{{category}}</span>
     {% endfor %}
     <button type="submit">Отфильтровать</button>
@@ -15,14 +15,38 @@
 {% for product in products %}
 <h1><a href="http://127.0.0.1:8000/product_detail/{{product.id}}">{{product}}</a></h1>
 <img src="{{product.image.url}}" width="200" height="100">
-    <h2>{{product.cost}}</h2>
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="shopping_cart">
-        <input type="hidden" name="product_id" value="{{product.id}}">
-        <input type="hidden" name="product_name" value="{{product.name}}">
-        <input name="count" type="number" min="1">
-        <button type="submit">Добавить в корзину</button>
-    </form>
+<h2>{{product.cost}}</h2>
+<form method="post" id="product_list_add_to_cart{{product.id}}" name="{{product.id}}">
+    {% csrf_token %}
+    <input id="product_list_form_type{{product.id}}" type="hidden" name="form_type" value="shopping_cart">
+    <input id="product_list_product_id{{product.id}}" type="hidden" name="product_id" value="{{product.id}}">
+    <input id="product_list_product_name{{product.id}}" type="hidden" name="product_name" value="{{product.name}}">
+    <input id="product_list_count{{product.id}}" name="count" type="number" min="1">
+    <button type="submit">Добавить в корзину</button>
+</form>
 {% endfor %}
+<script>
+$(document).on('submit', 'form[id^="product_list_add_to_cart"]', function(e){
+let a = $("#product_list_product_id").val();
+    e.preventDefault();
+    let id = e.target.name;
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'add_to_cart' %}",
+        data:{
+            form_type: $(`#product_list_form_type${id}`).val(),
+            product_id: $(`#product_list_product_id${id}`).val(),
+            product_name: $(`#product_list_product_name${id}`).val(),
+            count: $(`#product_list_count${id}`).val(),
+            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+        },
+        success:function(data){
+            console.log("adadas");
+        },
+    });
+});
+
+
+
+</script>
 {% endblock %}
