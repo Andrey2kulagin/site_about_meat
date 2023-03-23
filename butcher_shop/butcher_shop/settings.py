@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'butcher_shop_app',
-
     'blog',
 
 ]

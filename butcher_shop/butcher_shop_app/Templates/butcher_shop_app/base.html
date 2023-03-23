@@ -1,10 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
     {% block title %}
     {%endblock%}
+    <link href="{% static 'butcher_shop_app/css/style.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'butcher_shop_app/css/normalize.min.css' %}" rel="stylesheet" type="text/css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+</head>
+<header>
+    <nav class="header__nav">
+        <a href="{% url 'lk' %}">{{request.user}}</a>
+        <a href="#">О нас</a>
+        <a href="{% url 'blog_list' %}">Блог</a>
+        <a class="logo"></a>
+        <a href="{% url 'receipts' %}">Рецепты</a>
+        <a href="{% url 'shopping_cart' %}">Корзина</a>
+        <a href="{% url 'logout'%}">Выйти</a>
+    </nav>
+    <hr class="header__line"/>
+    <nav class="header__nav">
+        <a class="second__nav__a">Каталог продукции</a>
+        <a class="second__nav__a">Сделать заказ</a>
+    </nav>
+    <hr class="header__line"/>
+</header>
+
+
 </head>
 <body>
 <header>
