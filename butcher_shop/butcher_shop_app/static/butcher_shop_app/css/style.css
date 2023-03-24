@@ -75,7 +75,7 @@ input::-webkit-inner-spin-button {
   padding-right: 0px;
   width:240px;
   height: 120px;
-  background: url("img/logo.svg") no-repeat 1px;
+  background: url("../img/logo.svg") no-repeat 1px;
 
     }
 .header__line{
@@ -223,18 +223,18 @@ label.category_label input[type="checkbox"]:checked + span {
 }
 .name_input{
   display: inline-block;
-  background: url("img/username_icon.svg") no-repeat 15px;
+  background: url("../img/username_icon.svg") no-repeat 15px;
   background-size: 45px;
 }
 .phone_number_input{
   display: inline-block;
-  background: url("img/phone_icon.svg") no-repeat 15px;
+  background: url("../img/phone_icon.svg") no-repeat 15px;
   background-size: 40px;
 }
 .comment_input{
   height: 70px;
   display: inline-block;
-  background: url("img/comment_icon.svg") no-repeat 15px;
+  background: url("../img/comment_icon.svg") no-repeat 15px;
   background-size: 45px;
   overflow: auto;
 }
@@ -293,12 +293,12 @@ footer{
   left: 25%;
   width:300px;
   height: 150px;
-  background: url("img/logo.svg") no-repeat 1px;
+  background: url("../img/logo.svg") no-repeat 1px;
 }
 .dzen{
   height: 107px;
   width: 220px;
-  background: url("img/dzen.svg") no-repeat 0px ;
+  background: url("../img/dzen.svg") no-repeat 0px ;
 }
 .vk{
   padding-left: 5px;
@@ -306,20 +306,20 @@ footer{
   height: 50px;
   margin-left: 28px;
   margin-bottom: 28px;
-  background: url("img/vk.svg")no-repeat;
+  background: url("../img/vk.svg")no-repeat;
 }
 .telega{
   width: 50px;
   height: 50px;
   margin-left: 28px;
   margin-bottom: 28px;
-  background: url("img/telega.svg")no-repeat;
+  background: url("../img/telega.svg")no-repeat;
 }
 .ok{
   width: 50px;
   height: 50px;
   margin-left: 28px;
-  background: url("img/ok.svg") no-repeat;
+  background: url("../img/ok.svg") no-repeat;
 }
 .soc__header, .link__header{
   padding-top: 40px;
@@ -534,11 +534,11 @@ footer{
   width: 80%;
 }
 .username_input{
-  background: url("img/username_icon.svg") no-repeat 5px;
+  background: url("../img/username_icon.svg") no-repeat 5px;
   background-size: 40px;
 }
 .password_input{
-  background: url("img/password.svg") no-repeat 5px;
+  background: url("../img/password.svg") no-repeat 5px;
   background-size: 40px;
 }
 .or{
@@ -558,24 +558,24 @@ footer{
 }
 
 .reg_name_input{
-  background: url("img/name.svg") no-repeat 5px;
+  background: url("../img/name.svg") no-repeat 5px;
   background-size: 40px;
 }
 
 .email_input{
-  background: url("img/email.svg") no-repeat 5px;
+  background: url("../img/email.svg") no-repeat 5px;
   background-size: 40px;
 }
 .reg_phone_input{
-  background: url("img/phone_icon.svg") no-repeat 5px;
+  background: url("../img/phone_icon.svg") no-repeat 5px;
   background-size: 40px;
 }
 .address_input{
-  background: url("img/address.svg") no-repeat 5px;
+  background: url("../img/address.svg") no-repeat 5px;
   background-size: 40px;
 }
 .order_comment_input{
-  background: url("img/comment_icon.svg") no-repeat 5px;
+  background: url("../img/comment_icon.svg") no-repeat 5px;
   background-size: 40px;
 }
 

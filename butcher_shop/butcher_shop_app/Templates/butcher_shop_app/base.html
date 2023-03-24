@@ -13,40 +13,58 @@
 </head>
 <header>
     <nav class="header__nav">
+        {% if request.user.is_authenticated == False %}
+        <a href="{% url 'registrations' %}">Регистрация</a>
+        {% else %}
         <a href="{% url 'lk' %}">{{request.user}}</a>
+        {% endif %}
         <a href="#">О нас</a>
         <a href="{% url 'blog_list' %}">Блог</a>
-        <a class="logo"></a>
+        <a class="logo" href="{% url 'index' %}"></a>
         <a href="{% url 'receipts' %}">Рецепты</a>
         <a href="{% url 'shopping_cart' %}">Корзина</a>
+        {% if request.user.is_authenticated == False %}
+        <a href="{% url 'login'%}">Войти</a>
+        {% else %}
         <a href="{% url 'logout'%}">Выйти</a>
+        {% endif %}
+
     </nav>
     <hr class="header__line"/>
     <nav class="header__nav">
-        <a class="second__nav__a">Каталог продукции</a>
-        <a class="second__nav__a">Сделать заказ</a>
+        <a class="second__nav__a" href="{% url 'product_list' %}">Каталог продукции</a>
+        <a class="second__nav__a" href="{% url 'order_create' %}">Сделать заказ</a>
     </nav>
     <hr class="header__line"/>
 </header>
 
 
-</head>
 <body>
-<header>
-    <a href="#">{{request.user}}</a>
-    <a href="http://127.0.0.1:8000/">Главная страница</a>
-    <a href="http://127.0.0.1:8000/product_list">Каталог</a>
-    {% if request.user.is_authenticated == False %}
-    <a href="http://127.0.0.1:8000/login?next={{request.path}}">Войти</a>
-    <a href="http://127.0.0.1:8000/registrations?next={{request.path}}">Регистрация</a>
-    {% else %}
-    <a href="http://127.0.0.1:8000/logout?next={{request.path}}">Выйти</a>
-    {% endif %}
-    <a href="http://127.0.0.1:8000/shopping_cart">Корзина</a>
-    <a href="http://127.0.0.1:8000/order_create">Сделать заказ</a>
-
-</header>
 {% block content %}
 {%endblock%}
 </body>
+<footer>
+  <div class="logo_block">
+    <div class="logo__links">
+      <p>Только натуральное</p>
+      <p>Только свежее</p>
+      <p>Только отборное</p>
+    </div>
+    <div class="footer__logo"></div>
+  </div>
+  <div class="soc_block">
+    <div class="soc__header">Наши соцсети:</div>
+    <div class="dzen"></div>
+    <div class="vk"></div>
+    <div class="telega"></div>
+    <div class="ok"></div>
+  </div>
+  <div class="link_block">
+    <div class="link__header">Основные ссылки:</div>
+    <a class="link_block__link">Каталог продукции</a>
+    <a class="link_block__link">Сделать заказ</a>
+    <a class="link_block__link">Блог</a>
+    <a class="link_block__link">О нас</a>
+  </div>
+</footer>
 </html>
