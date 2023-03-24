@@ -46,7 +46,9 @@ class GoodsInShoppingCart(models.Model):
         return self.product.cost
 
     def total_cost(self):
-        return self.product.cost * self.count
+        if self.count:
+            return self.product.cost * self.count
+        return None
 
 
 class Order(models.Model):
@@ -58,7 +60,7 @@ class Order(models.Model):
     address = models.TextField()
     delivery_date = models.DateTimeField()
     comment = models.TextField()
-    total_cost = models.PositiveIntegerField(default=0)
+    total_cost = models.PositiveIntegerField(default=0, null=True)
     total_items = models.PositiveIntegerField(default=0)
     total_kgs = models.PositiveIntegerField(default=0)
 

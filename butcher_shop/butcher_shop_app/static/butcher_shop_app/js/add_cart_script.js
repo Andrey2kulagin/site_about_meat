@@ -3,7 +3,7 @@ $(document).on('submit', 'form[id^="product_list_add_to_cart"]', function(e){
     let id = e.target.name;
     $.ajax({
         type: 'POST',
-        url: "{% url 'add_to_cart' %}",
+        url: "http://127.0.0.1:8000/add_to_cart",
         data:{
             form_type: $(`#product_list_form_type${id}`).val(),
             product_id: $(`#product_list_product_id${id}`).val(),

@@ -4,6 +4,56 @@
 {% endblock %}
 
 {% block content %}
+{% load static %}
+
+<div class="main__image__div">
+    <img class="main__image__div__image" src="img/m2.jpg">
+    <div class="main__image__div__text__block">
+      <span class="main__image__div__text">Только лучшее мясо из самых экологически-чистых регионов России, которое мы с
+        любовью выращиваем на собственных фермах. Мы кормим животных только “живыми” кормами без ГМО и поим чистой водой
+        из скважины 120 метров. Благодаря этому мясо у наших животных получается нежным и вкусным, перед ним не устоит
+        даже самый искушенный гурман. </span>
+        <a href="#" class="standart__button">Попробовать</a>
+    </div>
+</div>
+<div class="index__cart__block">
+    <div class="simple__cart__row">
+        {% for product in products %}
+        <div class="product__card">
+            <img class="product__card__img" src="img/2504.970.jpg">
+            <a href="http://127.0.0.1:8000/product_detail/{{product.id}}" class="product__card__title">{{product}}</a>
+            <form method="POST">
+                {% csrf_token%}
+            <span class="product__card__cost"> {{product.cost}}</span>
+            <button  type="button" class="product__card_change_btn" onclick="sub_cart_count('{{product.id}}')">-</button>
+            <input class="product__card__count__input" id="{{product.id}}" name="count" type="number" min="1" value="1">
+            <button  type="button" class="product__card_change_btn" onclick="add_cart_count( {{product.id}})">
+                +
+            </button>
+                <input type="hidden" name="form_type" value="shopping_cart">
+            <input type="hidden" name="product_id" value="{{product.id}}">
+            <input type="hidden" name="product_name" value="{{product.name}}">
+            <button type="submit" class="standart__button">В корзину</button>
+                </form>
+        </div>
+        {% endfor %}
+
+
+    </div>
+    <button class="standart__button view__more_btn">Смотреть больше</button>
+</div>
+<div class="send_application_block">
+    <div class="application__title">Оставьте заявку и мы свяжемся с вами</div>
+    <div class="send_application">
+
+        <div class="base_input margin_class"><input class="name_input" placeholder="Введите ваше имя"></div>
+        <div class="base_input ">
+            <input class=" phone_number_input" placeholder="Введите ваш номер">
+        </div>
+        <div class=base_input><input class="comment_input" placeholder="Опишите задачу"></div>
+        <button class="standart__button send_application_btn">Отправить</button>
+    </div>
+</div>
 <br><br>
 
 {% for product in products %}
@@ -29,5 +79,6 @@
     {{form}}
     <button type="submit">Оставить заявку</button>
 </form>
+<script src="{% static 'butcher_shop_app/js/add_count_at_product_list.js' %}"></script>
 {% endblock %}
 
