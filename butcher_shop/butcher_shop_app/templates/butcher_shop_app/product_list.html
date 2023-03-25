@@ -6,30 +6,27 @@
 {% block content %}
 
 <div class="category__div">
-    Выберите категории:
-    <label class="category_label">
-      <input type="checkbox" class="hidden-checkbox-category">
-      <span>Говядина</span>
-    </label>
-    <label class="category_label">
-      <input type="checkbox" class="hidden-checkbox-category">
-      <span>Курица</span>
-    </label>
-    <label class="category_label">
-      <input type="checkbox" class="hidden-checkbox-category">
-      <span>Рыба</span>
-    </label>
-    <button class="standart__button filter__button" type="submit">Фильтровать</button>
-  </div>
-  <div class="catalog">
-      {% for products_block in products_blocks %}
-        <div class="cart_row">
-              {% include "butcher_shop_app/product_row.html" %}
-        </div>
-      {% endfor %}
+    <form method="get">
+        {% csrf_token %}
+        Выберите категории:
+        {% for category in categories %}
+        <label class="category_label">
+            <input type="checkbox" class="hidden-checkbox-category" value="{{category}}" name="category"    >
+            <span>{{category}}</span>
+        </label>
+        {% endfor %}
 
-  <button class="standart__button">Смотреть ещё</button>
-  </div>
+        <button class="standart__button filter__button" type="submit">Фильтровать</button>
+    </form>
+</div>
+<div class="catalog">
+    {% for products_block in products_blocks %}
+    <div class="cart_row">
+        {% include "butcher_shop_app/product_row.html" %}
+    </div>
+    {% endfor %}
+
+</div>
 {% load static %}
 
 <form method="get">
@@ -38,7 +35,7 @@
     <input type="checkbox" value="{{category}}" name="category">
     <span>{{category}}</span>
     {% endfor %}
-    <button type="submit">Отфильтровать</button>
+    <button type="submit" id="filter_button">Отфильтровать</button>
 </form>
 {% for product in products %}
 <h1><a href="{% url 'product_detail' pk=product.id %}">{{product}}</a></h1>
@@ -46,13 +43,15 @@
 <h2>{{product.cost}}</h2>
 <form method="post" id="product_list_add_to_cart{{product.id}}" name="{{product.id}}">
     {% csrf_token %}
-    <input id="product_list_url{{product.id}}" type="hidden"  value="{% url 'add_to_cart' %}">
+    <input id="product_list_url{{product.id}}" type="hidden" value="{% url 'add_to_cart' %}">
     <input id="product_list_product_id{{product.id}}" type="hidden" name="product_id" value="{{product.id}}">
     <input id="product_list_product_name{{product.id}}" type="hidden" name="product_name" value="{{product.name}}">
     <input id="product_list_count{{product.id}}" name="count" type="number" min="1" value="1">
     <button type="submit">Добавить в корзину</button>
 </form>
 {% endfor %}
+
 <script type="text/javascript" src="{% static 'butcher_shop_app/js/add_cart_script.js' %}"></script>
+<script src="{% static 'butcher_shop_app/js/add_count_at_product_list.js' %}"></script>
 {% endblock %}
 

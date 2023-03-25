@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def index(request):

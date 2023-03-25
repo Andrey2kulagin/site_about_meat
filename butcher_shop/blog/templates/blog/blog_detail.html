@@ -1,0 +1,20 @@
+{% extends 'butcher_shop_app/base.html' %}
+{% block title %}
+<title>Blog list</title>
+{% endblock %}
+
+{% block content %}
+ <h1 class="blog_title">{{post.title}}</h1>
+  <div class="blog_body">
+    {{post.body|safe}}
+  </div>
+  <img src="{{post.image.url}}" class="blog_img">
+    <div class="index__cart__block">
+    <div class="simple__cart__row">
+      {% include "butcher_shop_app/product_row.html" %}
+    </div>
+    <a href="{% url 'product_list' %}" class="standart__button view__more_btn">Смотреть больше</a>
+  </div>
+    <hr class="header__line" />
+
+{% endblock %}

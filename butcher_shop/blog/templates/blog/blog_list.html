@@ -1,0 +1,21 @@
+{% extends 'butcher_shop_app/base.html' %}
+{% block title %}
+<title>Blog list</title>
+{% endblock %}
+
+{% block content %}
+{% for post in posts %}
+<div class="catalog">
+    <div class="product__card blog_cart">
+        <img class="product__card__img blog_cart__img" src="{{post.image.url}}">
+        <span class="product__card__title blog_cart__title">{{post.title}}</span>
+        <span class="product__card__cost blog_cart_annotation"> {{post.preview|safe}}</span>
+        <a href="{{post.id}}" class="standart__button view_more_blog_btn">Читать подробнее</a>
+    </div>
+
+</div>
+{% endfor %}
+{% for post in posts %}
+<a href="{{post.id}}">{{post.title}}</a>
+{% endfor %}
+{% endblock %}

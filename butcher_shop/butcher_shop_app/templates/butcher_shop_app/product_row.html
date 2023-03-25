@@ -6,7 +6,7 @@
         <a href="{% url 'product_detail' pk=product.id %}" class="product__card__title">{{product}}</a>
         <form method="POST" id="product_list_add_to_cart{{product.id}}" name="{{product.id}}">
             {% csrf_token%}
-            <span class="product__card__cost"> {{product.cost}}</span>
+            <span class="product__card__cost"> {{product.cost}} руб.\кг</span>
             <button type="button" class="product__card_change_btn"
                     onclick="sub_cart_count('product_list_count{{product.id}}')">-
             </button>
@@ -30,5 +30,3 @@
 
 
 </div>
-<script src="{% static 'butcher_shop_app/js/add_cart_script.js' %}"></script>
-<script src="{% static 'butcher_shop_app/js/send_application.js' %}"></script>

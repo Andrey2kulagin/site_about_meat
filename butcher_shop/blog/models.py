@@ -10,4 +10,5 @@ class Blog(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     is_receipt = models.BooleanField(default=False)
+    image = models.ImageField(upload_to='img', default="img/1.png", null=True)
 
