@@ -40,7 +40,7 @@ class UserAdditionalInfo(models.Model):
 class GoodsInShoppingCart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    count = models.PositiveIntegerField(default=0)
+    count = models.PositiveIntegerField(default=0, null=True)
 
     def cost(self):
         return self.product.cost
