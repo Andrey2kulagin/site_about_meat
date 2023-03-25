@@ -17,37 +17,7 @@
     </div>
 </div>
 <div class="index__cart__block">
-    <div class="simple__cart__row">
-        {% for product in products %}
-        <div class="product__card">
-            <img class="product__card__img" src="{{product.image.url}}">
-            <a href="{% url 'product_detail' pk=product.id %}" class="product__card__title">{{product}}</a>
-            <form method="POST" id="product_list_add_to_cart{{product.id}}" name="{{product.id}}">
-                {% csrf_token%}
-                <span class="product__card__cost"> {{product.cost}}</span>
-                <button type="button" class="product__card_change_btn"
-                        onclick="sub_cart_count('product_list_count{{product.id}}')">-
-                </button>
-                <input class="product__card__count__input" id="product_list_count{{product.id}}" name="count"
-                       type="number" min="1"
-                       value="1">
-                <button type="button" class="product__card_change_btn"
-                        onclick="add_cart_count('product_list_count{{product.id}}')">
-                    +
-                </button>
-                 <input id="product_list_url{{product.id}}" type="hidden"  value="{% url 'add_to_cart' %}">
-                <input id="product_list_product_id{{product.id}}" type="hidden" name="product_id"
-                       value="{{product.id}}">
-                <input id="product_list_product_name{{product.id}}" type="hidden" name="product_name"
-                       value="{{product.name}}">
-
-                <button type="submit" class="standart__button">В корзину</button>
-            </form>
-        </div>
-        {% endfor %}
-
-
-    </div>
+    {% include "butcher_shop_app/product_row.html" %}
     <button class="standart__button view__more_btn">Смотреть больше</button>
 </div>
 <div class="send_application_block">

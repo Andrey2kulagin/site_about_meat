@@ -13,7 +13,7 @@ def index(request):
 
     products = Product.objects.all()[:4]
     form = ApplicationForm()
-    context['products'] = products
+    context['products_block'] = products
     context["form"] = form
 
     return render(request, "butcher_shop_app/index.html", context)
@@ -230,12 +230,31 @@ def product_list(request):
         products = Product.objects.filter(category_name__in=selected_categories)
     else:
         products = Product.objects.all()
-    # if request.method == "POST":
-    #   add_to_cart(request)
     categories = ProductCategories.objects.all()
     context["categories"] = categories
-    context["products"] = products
+    context["products_blocks"] = group_to_blocks(products)
+    print(context["products_blocks"])
     return render(request, "butcher_shop_app/product_list.html", context)
+
+
+def group_to_blocks(products):
+    blocks = []
+    count = 0
+    block_buffer = []
+    for product in products:
+        print(count, blocks, block_buffer, sep='\n')
+        if count < 4:
+            block_buffer.append(product)
+            count += 1
+        else:
+            blocks.append(block_buffer)
+            count = 0
+            block_buffer = []
+            block_buffer.append(product)
+    print("БЫЛ ЗДЕСЬ", count)
+    if count > 0:
+        blocks.append(block_buffer)
+    return blocks
 
 
 def product_detail(request, pk):

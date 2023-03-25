@@ -22,47 +22,12 @@
     <button class="standart__button filter__button" type="submit">Фильтровать</button>
   </div>
   <div class="catalog">
-    <div class="cart_row">
-      <div class="simple__cart__row">
-        <div class="product__card">
-          <img class="product__card__img" src="img/2504.970.jpg">
-          <span class="product__card__title">Говяжья вырезка</span>
-          <span class="product__card__cost"> 380 руб./кг</span>
-          <button class="product__card_change_btn" onclick="sub_cart_count('1')">-</button>
-          <input class="product__card__count__input" id="1" name="count" type="number" min="3" value="1">
-          <button class="product__card_change_btn" onclick="add_cart_count( '1')">
-            +
-          </button>
-          <button class="standart__button">В корзину</button>
+      {% for products_block in products_blocks %}
+        <div class="cart_row">
+              {% include "butcher_shop_app/product_row.html" %}
         </div>
+      {% endfor %}
 
-
-        </div>
-
-
-      </div>
-    </div>
-
-
-  <div class="cart_row">
-      <div class="simple__cart__row">
-        <div class="product__card">
-          <img class="product__card__img" src="img/2504.970.jpg">
-          <span class="product__card__title">Говяжья вырезка</span>
-          <span class="product__card__cost"> 380 руб./кг</span>
-          <button class="product__card_change_btn" onclick="sub_cart_count('1')">-</button>
-          <input class="product__card__count__input" id="1" name="count" type="number" min="3" value="1">
-          <button class="product__card_change_btn" onclick="add_cart_count( '1')">
-            +
-          </button>
-          <button class="standart__button">В корзину</button>
-        </div>
-
-
-
-
-      </div>
-    </div>
   <button class="standart__button">Смотреть ещё</button>
   </div>
 {% load static %}
