@@ -7,7 +7,7 @@
 {% load static %}
 
 <div class="main__image__div">
-    <img class="main__image__div__image" src="img/m2.jpg">
+    <img class="main__image__div__image" src="{% static 'butcher_shop_app/img/2504.970.jpg' %}">
     <div class="main__image__div__text__block">
       <span class="main__image__div__text">Только лучшее мясо из самых экологически-чистых регионов России, которое мы с
         любовью выращиваем на собственных фермах. Мы кормим животных только “живыми” кормами без ГМО и поим чистой водой
@@ -20,7 +20,7 @@
     <div class="simple__cart__row">
         {% for product in products %}
         <div class="product__card">
-            <img class="product__card__img" src="img/2504.970.jpg">
+            <img class="product__card__img" src="{{product.image.url}}">
             <a href="{% url 'product_detail' pk=product.id %}" class="product__card__title">{{product}}</a>
             <form method="POST" id="product_list_add_to_cart{{product.id}}" name="{{product.id}}">
                 {% csrf_token%}

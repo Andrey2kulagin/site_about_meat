@@ -11,7 +11,7 @@ from django.http import HttpResponse
 def index(request):
     context = {}
 
-    products = Product.objects.all()[:3]
+    products = Product.objects.all()[:4]
     form = ApplicationForm()
     context['products'] = products
     context["form"] = form

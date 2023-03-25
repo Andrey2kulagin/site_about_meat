@@ -4,6 +4,67 @@
 {% endblock %}
 
 {% block content %}
+
+<div class="category__div">
+    Выберите категории:
+    <label class="category_label">
+      <input type="checkbox" class="hidden-checkbox-category">
+      <span>Говядина</span>
+    </label>
+    <label class="category_label">
+      <input type="checkbox" class="hidden-checkbox-category">
+      <span>Курица</span>
+    </label>
+    <label class="category_label">
+      <input type="checkbox" class="hidden-checkbox-category">
+      <span>Рыба</span>
+    </label>
+    <button class="standart__button filter__button" type="submit">Фильтровать</button>
+  </div>
+  <div class="catalog">
+    <div class="cart_row">
+      <div class="simple__cart__row">
+        <div class="product__card">
+          <img class="product__card__img" src="img/2504.970.jpg">
+          <span class="product__card__title">Говяжья вырезка</span>
+          <span class="product__card__cost"> 380 руб./кг</span>
+          <button class="product__card_change_btn" onclick="sub_cart_count('1')">-</button>
+          <input class="product__card__count__input" id="1" name="count" type="number" min="3" value="1">
+          <button class="product__card_change_btn" onclick="add_cart_count( '1')">
+            +
+          </button>
+          <button class="standart__button">В корзину</button>
+        </div>
+
+
+        </div>
+
+
+      </div>
+    </div>
+
+
+  <div class="cart_row">
+      <div class="simple__cart__row">
+        <div class="product__card">
+          <img class="product__card__img" src="img/2504.970.jpg">
+          <span class="product__card__title">Говяжья вырезка</span>
+          <span class="product__card__cost"> 380 руб./кг</span>
+          <button class="product__card_change_btn" onclick="sub_cart_count('1')">-</button>
+          <input class="product__card__count__input" id="1" name="count" type="number" min="3" value="1">
+          <button class="product__card_change_btn" onclick="add_cart_count( '1')">
+            +
+          </button>
+          <button class="standart__button">В корзину</button>
+        </div>
+
+
+
+
+      </div>
+    </div>
+  <button class="standart__button">Смотреть ещё</button>
+  </div>
 {% load static %}
 
 <form method="get">
