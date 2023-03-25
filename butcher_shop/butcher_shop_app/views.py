@@ -11,20 +11,20 @@ from django.http import HttpResponse
 def index(request):
     context = {}
 
-    products = Product.objects.all()
-    if request.method == "POST":
-        form_type = request.POST.get("form_type")
-        if form_type == 'application':
-            form = ApplicationForm(request.POST)
-            if form.is_valid():
-                form.save()
-        elif form_type == 'shopping_cart':
-            add_to_cart(request)
+    products = Product.objects.all()[:3]
     form = ApplicationForm()
     context['products'] = products
     context["form"] = form
 
     return render(request, "butcher_shop_app/index.html", context)
+
+
+def send_application(request):
+    if request.method == "POST":
+        print("Я был здесь!!!")
+        form = ApplicationForm(request.POST)
+        form.save()
+    return HttpResponse("Я был здесь!!!")
 
 
 def add_to_cart(request):

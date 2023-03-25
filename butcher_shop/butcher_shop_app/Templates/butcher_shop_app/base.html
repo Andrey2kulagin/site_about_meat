@@ -61,9 +61,9 @@
   </div>
   <div class="link_block">
     <div class="link__header">Основные ссылки:</div>
-    <a class="link_block__link">Каталог продукции</a>
-    <a class="link_block__link">Сделать заказ</a>
-    <a class="link_block__link">Блог</a>
+    <a class="link_block__link" href="{% url 'product_list' %}">Каталог продукции</a>
+    <a class="link_block__link" href="{% url 'order_create' %}">Сделать заказ</a>
+    <a class="link_block__link" href="{% url 'blog_list' %}">Блог</a>
     <a class="link_block__link">О нас</a>
   </div>
 </footer>

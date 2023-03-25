@@ -15,12 +15,12 @@
     <button type="submit">Отфильтровать</button>
 </form>
 {% for product in products %}
-<h1><a href="http://127.0.0.1:8000/product_detail/{{product.id}}">{{product}}</a></h1>
+<h1><a href="{% url 'product_detail' pk=product.id %}">{{product}}</a></h1>
 <img src="{{product.image.url}}" width="200" height="100">
 <h2>{{product.cost}}</h2>
 <form method="post" id="product_list_add_to_cart{{product.id}}" name="{{product.id}}">
     {% csrf_token %}
-    <input id="product_list_form_type{{product.id}}" type="hidden" name="form_type" value="shopping_cart">
+    <input id="product_list_url{{product.id}}" type="hidden"  value="{% url 'add_to_cart' %}">
     <input id="product_list_product_id{{product.id}}" type="hidden" name="product_id" value="{{product.id}}">
     <input id="product_list_product_name{{product.id}}" type="hidden" name="product_name" value="{{product.name}}">
     <input id="product_list_count{{product.id}}" name="count" type="number" min="1" value="1">

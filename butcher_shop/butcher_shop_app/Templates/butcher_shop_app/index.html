@@ -21,20 +21,28 @@
         {% for product in products %}
         <div class="product__card">
             <img class="product__card__img" src="img/2504.970.jpg">
-            <a href="http://127.0.0.1:8000/product_detail/{{product.id}}" class="product__card__title">{{product}}</a>
-            <form method="POST">
+            <a href="{% url 'product_detail' pk=product.id %}" class="product__card__title">{{product}}</a>
+            <form method="POST" id="product_list_add_to_cart{{product.id}}" name="{{product.id}}">
                 {% csrf_token%}
-            <span class="product__card__cost"> {{product.cost}}</span>
-            <button  type="button" class="product__card_change_btn" onclick="sub_cart_count('{{product.id}}')">-</button>
-            <input class="product__card__count__input" id="{{product.id}}" name="count" type="number" min="1" value="1">
-            <button  type="button" class="product__card_change_btn" onclick="add_cart_count( {{product.id}})">
-                +
-            </button>
-                <input type="hidden" name="form_type" value="shopping_cart">
-            <input type="hidden" name="product_id" value="{{product.id}}">
-            <input type="hidden" name="product_name" value="{{product.name}}">
-            <button type="submit" class="standart__button">В корзину</button>
-                </form>
+                <span class="product__card__cost"> {{product.cost}}</span>
+                <button type="button" class="product__card_change_btn"
+                        onclick="sub_cart_count('product_list_count{{product.id}}')">-
+                </button>
+                <input class="product__card__count__input" id="product_list_count{{product.id}}" name="count"
+                       type="number" min="1"
+                       value="1">
+                <button type="button" class="product__card_change_btn"
+                        onclick="add_cart_count('product_list_count{{product.id}}')">
+                    +
+                </button>
+                 <input id="product_list_url{{product.id}}" type="hidden"  value="{% url 'add_to_cart' %}">
+                <input id="product_list_product_id{{product.id}}" type="hidden" name="product_id"
+                       value="{{product.id}}">
+                <input id="product_list_product_name{{product.id}}" type="hidden" name="product_name"
+                       value="{{product.name}}">
+
+                <button type="submit" class="standart__button">В корзину</button>
+            </form>
         </div>
         {% endfor %}
 
@@ -44,41 +52,21 @@
 </div>
 <div class="send_application_block">
     <div class="application__title">Оставьте заявку и мы свяжемся с вами</div>
-    <div class="send_application">
-
-        <div class="base_input margin_class"><input class="name_input" placeholder="Введите ваше имя"></div>
-        <div class="base_input ">
-            <input class=" phone_number_input" placeholder="Введите ваш номер">
-        </div>
-        <div class=base_input><input class="comment_input" placeholder="Опишите задачу"></div>
-        <button class="standart__button send_application_btn">Отправить</button>
-    </div>
-</div>
-<br><br>
-
-{% for product in products %}
-<div>
-    <h1><a href="http://127.0.0.1:8000/product_detail/{{product.id}}">{{product}}</a></h1>
-    <img src="{{product.image.url}}" width="200" height="100">
-    <h2>{{product.cost}}</h2>
-    <form method="post">
+    <form method="post" id="application_form">
         {% csrf_token %}
-        <input type="hidden" name="form_type" value="shopping_cart">
-        <input type="hidden" name="product_id" value="{{product.id}}">
-        <input type="hidden" name="product_name" value="{{product.name}}">
-        <input name="count" type="number" min="1" value="1">
-        <button type="submit">Добавить в корзину</button>
+        <div class="send_application">
+             <input id="application_url" type="hidden"  value="{% url 'send_application' %}">
+            <div class="base_input margin_class">{{form.name}}</div>
+            <div class="base_input ">{{form.phone_number}}</div>
+            <div class=base_input>{{form.comment}}</div>
+            <button class="standart__button send_application_btn">Отправить</button>
+        </div>
     </form>
-
 </div>
-<br>
-{% endfor %}
-<form method="post">
-    {% csrf_token %}
-    <input type="hidden" name="form_type" value="application">
-    {{form}}
-    <button type="submit">Оставить заявку</button>
-</form>
+
+<script src="{% static 'butcher_shop_app/js/add_cart_script.js' %}"></script>
+<script src="{% static 'butcher_shop_app/js/send_application.js' %}"></script>
 <script src="{% static 'butcher_shop_app/js/add_count_at_product_list.js' %}"></script>
+
 {% endblock %}
 
