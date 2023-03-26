@@ -12,6 +12,9 @@ $(document).on('click', '[id^="change_btn_"]', function(page){
             success:function(data){
                 let input_val = +$(`#input_${product_id}`).val();
                 $(`#input_${product_id}`).val(input_val + 1);
+                let goods_count = $(`#input_${product_id}`).val()
+                let cost = $(`#product_cost${product_id}`).text();
+               $(`#cart_sum${product_id}`).text(+cost*(+goods_count));
             },
         });
        }
@@ -26,6 +29,9 @@ $(document).on('click', '[id^="change_btn_"]', function(page){
                 if (input_val>1){
                     $(`#input_${product_id}`).val(input_val - 1);
                    }
+                let goods_count = $(`#input_${product_id}`).val()
+                let cost = $(`#product_cost${product_id}`).text();
+               $(`#cart_sum${product_id}`).text(+cost*(+goods_count));
             },
         });
      }

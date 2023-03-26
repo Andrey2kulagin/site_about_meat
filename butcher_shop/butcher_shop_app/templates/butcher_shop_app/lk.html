@@ -4,20 +4,30 @@
 {% endblock %}
 
 {% block content %}
-корзина
+<div class="cart_main_title">
+    Моя корзина
+</div>
 {% include "butcher_shop_app/cart_base.html" %}
-<br>
-<br>
-<br>
-{% if orders_len == 0 %}
-<span>У вас пока нет заказов </span>
-<a href="http://127.0.0.1:8000/order_create">Сделать заказ</a>
-{% endif %}
-{% for order in orders %}
-{{order.my_id}}
-{{order.created}}
-{{order.is_processed}}
-{{order.is_processed}}
-<br>
-{% endfor %}
+<div class="cart_main_title">
+    Мои заказы
+    {% if orders_len == 0 %}
+    <div class="cart_main_title">У вас пока нет заказов</div>
+    <a href="{% url 'order_create' %}" class="standart__button create_order_btn">
+        Сделать заказ
+    </a>
+    {% endif %}
+</div>
+<div class="orders">
+    {% for order in orders %}
+    <div class="order_summary">
+        <span class="total_p">{{order.my_id}}</span>
+        <span class="cart_summury_count">{{order.created}}</span>
+        <span class="cart_summury_kgs">{{order.position_number}} позиции</span>
+        <span class="cart_summury_kgs">{{order.sum_kgs}} кг</span>
+        <span class="cart_summury_rub">{{order.sum_rubs}} руб.</span>
+        <span class="cart_summury_rub">{{order.status}}</span>
+    </div>
+    {% endfor %}
+</div>
+<hr class="header__line"/>
 {% endblock %}

@@ -63,9 +63,33 @@ class Order(models.Model):
     total_cost = models.PositiveIntegerField(default=0, null=True)
     total_items = models.PositiveIntegerField(default=0)
     total_kgs = models.PositiveIntegerField(default=0)
+    ORDER_STATUS = (
+        ('r', 'Зарегистрирован'),
+        ('p', 'Собирается'),
+        ('s', 'Отправлен на доставку'),
+        ('d', 'Доставлен'),
+    )
+    status = models.CharField(max_length=1, choices=ORDER_STATUS, null=True, default="Зарегистрирован")
 
     def __str__(self):
         return self.my_id
+
+    def position_number(self):
+        return len(OrderItems.objects.filter(order_id=self))
+
+    def sum_kgs(self):
+        items = OrderItems.objects.filter(order_id=self)
+        sum_gks_eq = 0
+        for item in items:
+            sum_gks_eq += item.product_count
+        return sum_gks_eq
+
+    def sum_rubs(self):
+        items = OrderItems.objects.filter(order_id=self)
+        sum_rubs_eq = 0
+        for item in items:
+            sum_rubs_eq += item.product_id.cost * item.product_count
+        return sum_rubs_eq
 
 
 class OrderItems(models.Model):

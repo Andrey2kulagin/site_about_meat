@@ -50,10 +50,10 @@ class UserRegistrationsForm(UserCreationForm):
 
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(
-        attrs={'class': 'username__input', 'placeholder': 'Введите имя пользователя'}))
+        attrs={'class':"login_input username_input", 'placeholder':"Введите имя пользователя"}))
     password = forms.CharField(
         widget=forms.PasswordInput(
-            attrs={"autocomplete": "password", 'class': "password__input", 'placeholder': "Введите пароль"}),
+            attrs={"autocomplete": "password", 'class': "login_input password_input", 'placeholder': "Введите пароль"}),
     )
 
     class Meta:

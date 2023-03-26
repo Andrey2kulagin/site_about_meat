@@ -1,19 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Страница входа</title>
-</head>
-<body>
-{{errors}}
-{{request.user}}
-<form method="post">
-    {% csrf_token %}
-    {{login_form.username}}<br>
-    {{login_form.password}}<br>
-    <input type="hidden" name="next" value="{{ request.GET.next }}">
-  <button type="submit">Войти</button>
-</form>
-<a href="http://127.0.0.1:8000/registrations">Регистрация</a>
-</body>
-</html>
+{% extends 'butcher_shop_app/base.html' %}
+{% block title %}
+<title>Личный кабинет</title>
+{% endblock %}
+{% block content%}
+<div class="login_div">
+    <div class="login_header">Вход</div>
+    <span>{{errors}}</span>
+    <form method="post">
+        {% csrf_token %}
+        <div class="base_input login_input">
+            {{login_form.username}}
+        </div>
+        <div class="base_input login_input">
+            <input class="login_input password_input" placeholder="Введите пароль">
+        </div>
+        <button class="standart__button">
+            Войти
+        </button>
+    </form>
+    <span class="or">или</span>
+    <a href="{% url 'registrations' %}" class="standart__button">
+        Регистрация
+    </a>
+</div>
+
+
+{% endblock %}
