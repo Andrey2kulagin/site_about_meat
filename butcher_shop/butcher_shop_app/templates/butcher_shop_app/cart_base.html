@@ -19,9 +19,13 @@
                         <button class="product__card_change_btn shopping_cart_cange_btn" name="-"
                                 id="change_btn_minus{{product.id}}">&#8722;
                         </button>
-                    <input class="product__card__count__input shopping_cart_input" id="{{product.id}}" name="count"
+                    <form method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <input type="hidden" id="change_url" value="{% url 'change_goods_count' %}">
+                    <input class="product__card__count__input shopping_cart_input" id="input_{{product.id}}" name="count"
                            type="number" min="1"
                            value="{{product.count}}">
+                        </form>
                     <button class="product__card_change_btn shopping_cart_cange_btn" id="change_btn_plus{{product.id}}"
                             name="+">
                         &#43;
@@ -51,6 +55,7 @@
 </button>
 <hr class="header__line"/>
 <script src="{% static 'butcher_shop_app/js/change_count_cart_m_p.js' %}"></script>
+<script src="{% static 'butcher_shop_app/js/change_cart_count.js' %}"></script>
 
 
 {% for product in cart %}

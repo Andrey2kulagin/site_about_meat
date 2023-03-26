@@ -155,8 +155,7 @@ def change_goods_count(request):
             if product['id'] == int(product_id):
                 product['count'] = new_goods_count
         request.session['shopping_cart'] = cure_shopping_cart_dict
-
-
+    return HttpResponse("")
 def del_good(request):
     product_id = request.POST.get("product_id")
     if request.user.is_authenticated:

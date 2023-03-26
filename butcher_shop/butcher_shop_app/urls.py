@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import index, registrations, user_login, user_logout, shopping_cart, product_list, product_detail, \
-    order_create_view, lk_view, add_to_cart, send_application, goods_count_minus_plus
+    order_create_view, lk_view, add_to_cart, send_application, goods_count_minus_plus, change_goods_count
 
 urlpatterns = [
     path("", index, name="index"),
@@ -15,5 +15,6 @@ urlpatterns = [
     path("lk", lk_view, name="lk"),
     path("send_application", send_application, name="send_application"),
     path("goods_count_minus_plus/<int:pk>/<str:product_id>", goods_count_minus_plus, name="goods_count_minus_plus"),
+    path("change_goods_count", change_goods_count, name="change_goods_count"),
 
 ]

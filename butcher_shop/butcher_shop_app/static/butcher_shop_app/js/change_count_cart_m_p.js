@@ -10,8 +10,8 @@ $(document).on('click', '[id^="change_btn_"]', function(page){
             type:"get",
             url: url,
             success:function(data){
-                let input_val = +$(`#${product_id}`).val();
-                $(`#${product_id}`).val(input_val + 1);
+                let input_val = +$(`#input_${product_id}`).val();
+                $(`#input_${product_id}`).val(input_val + 1);
             },
         });
        }
@@ -22,9 +22,9 @@ $(document).on('click', '[id^="change_btn_"]', function(page){
             type:"get",
             url: url,
             success:function(data){
-                let input_val = +$(`#${product_id}`).val();
+                let input_val = +$(`#input_${product_id}`).val();
                 if (input_val>1){
-                    $(`#${product_id}`).val(input_val - 1);
+                    $(`#input_${product_id}`).val(input_val - 1);
                    }
             },
         });
