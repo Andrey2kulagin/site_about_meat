@@ -11,28 +11,36 @@
         </div>
         <div class="shopping_cart_centr_info">
             <div class="flex_container">
-                <span class="product__card__cost shopping_cart_cost"> 380 руб./кг</span>
+                <span class="product__card__cost shopping_cart_cost">{{product.cost}} руб./кг</span>
                 <div class="shopping_cart_count_div">
-                    <input type="hidden" value="{% url 'goods_count_minus_plus'  pk=1 product_id=product.id %}" id="plus_url{{product.id}}">
-                        <input type="hidden" value="{% url 'goods_count_minus_plus'  pk=0 product_id=product.id %}" id="minus_url{{product.id}}">
+                    <input type="hidden" value="{% url 'goods_count_minus_plus'  pk=1 product_id=product.id %}"
+                           id="plus_url{{product.id}}">
+                    <input type="hidden" value="{% url 'goods_count_minus_plus'  pk=0 product_id=product.id %}"
+                           id="minus_url{{product.id}}">
 
-                        <button class="product__card_change_btn shopping_cart_cange_btn" name="-"
-                                id="change_btn_minus{{product.id}}">&#8722;
-                        </button>
+                    <button class="product__card_change_btn shopping_cart_cange_btn" name="-"
+                            id="change_btn_minus{{product.id}}">&#8722;
+                    </button>
                     <form method="post" style="display: inline;">
                         {% csrf_token %}
                         <input type="hidden" id="change_url" value="{% url 'change_goods_count' %}">
-                    <input class="product__card__count__input shopping_cart_input" id="input_{{product.id}}" name="count"
-                           type="number" min="1"
-                           value="{{product.count}}">
-                        </form>
+                        <input class="product__card__count__input shopping_cart_input" id="input_{{product.id}}"
+                               name="count"
+                               type="number" min="1"
+                               value="{{product.count}}">
+                    </form>
                     <button class="product__card_change_btn shopping_cart_cange_btn" id="change_btn_plus{{product.id}}"
                             name="+">
                         &#43;
                     </button>
                 </div>
-                <p class="cart_sum">1900 руб.</p>
-                <img class="trash_icon" src="{% static 'butcher_shop_app/img/trash.svg' %}">
+                <p class="cart_sum">{{product.total_cost}} руб.</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="del_good">
+                    <input type="hidden" name="product_id" value="{{product.id}}">
+                    <input class="trash_icon" type="image" src="{% static 'butcher_shop_app/img/trash.svg' %}" alt="Submit">
+                </form>
             </div>
         </div>
     </div>
@@ -46,9 +54,9 @@
 
 <div class="cart_summary">
     <span class="total_p">Итого:</span>
-    <span class="cart_summury_count">3 позиции</span>
-    <span class="cart_summury_kgs">18 кг</span>
-    <span class="cart_summury_rub">15800 руб.</span>
+    <span class="cart_summury_count">{{product_count}} позиций</span>
+    <span class="cart_summury_kgs">{{products_count_kg}} кг</span>
+    <span class="cart_summury_rub">{{total_cost}} руб.</span>
 </div>
 <button class="standart__button create_order_btn">
     Сделать заказ
@@ -57,41 +65,4 @@
 <script src="{% static 'butcher_shop_app/js/change_count_cart_m_p.js' %}"></script>
 <script src="{% static 'butcher_shop_app/js/change_cart_count.js' %}"></script>
 
-
-{% for product in cart %}
-<br>
-<div>
-    {{product.product}}
-    {{product.cost}} руб.\кг
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="goods_count_minus">
-        <input type="hidden" name="product_id" value="{{product.id}}">
-        <button type="submit">-</button>
-    </form>
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="goods_count">
-        <input type="hidden" name="product_id" value="{{product.id}}">
-        <input name="goods_count" type="number" min="1" value="{{product.count}}">
-    </form>
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="goods_count_plus">
-        <input type="hidden" name="product_id" value="{{product.id}}">
-        <button type="submit">+</button>
-    </form>
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="form_type" value="del_good">
-        <input type="hidden" name="product_id" value="{{product.id}}">
-        <button type="submit">Удалить товар из корзины</button>
-    </form>
-    {{product.total_cost}}
-</div>
-{% endfor %}
-<div>
-    Итого кол-во {{product_count}}
-    Итого кг {{products_count_kg}}
-    Итого стоимость {{total_cost}}
-</div>
+>

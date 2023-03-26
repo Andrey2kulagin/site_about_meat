@@ -476,10 +476,15 @@ footer{
   right: 25%;
 }
 .trash_icon{
+    all: unset;
   position: absolute;
   right: 15%;
   height: 30px;
   width: 30px;
+  background: none;
+  display: inline;
+  margin: 0;
+  top: 50%
 }
 .cart_main_title{
   margin-top: 20px;

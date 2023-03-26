@@ -98,16 +98,10 @@ def shopping_cart(request):
 
 def cart_logic(request):
     context = {}
-    '''if request.method == "POST":
+    if request.method == "POST":
         form_type = request.POST.get("form_type")
-        if form_type == "goods_count_minus":
-            goods_count_minus_plus(request, -1)
-        if form_type == 'goods_count':
-            change_goods_count(request)
-        if form_type == 'goods_count_plus':
-            goods_count_minus_plus(request, 1)
         if form_type == 'del_good':
-            del_good(request)'''
+            del_good(request)
     if request.user.is_authenticated:
         user_cart = GoodsInShoppingCart.objects.filter(user=request.user)
         context["cart"] = user_cart
@@ -171,6 +165,7 @@ def del_good(request):
         while {} in cure_shopping_cart_dict:
             cure_shopping_cart_dict.remove({})
         request.session['shopping_cart'] = cure_shopping_cart_dict
+    return HttpResponse("")
 
 
 def add_to_shopping_cart(request, id: int, count: int, product: str):
