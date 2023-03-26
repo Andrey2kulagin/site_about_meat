@@ -98,7 +98,7 @@ def shopping_cart(request):
 
 def cart_logic(request):
     context = {}
-    if request.method == "POST":
+    '''if request.method == "POST":
         form_type = request.POST.get("form_type")
         if form_type == "goods_count_minus":
             goods_count_minus_plus(request, -1)
@@ -107,7 +107,7 @@ def cart_logic(request):
         if form_type == 'goods_count_plus':
             goods_count_minus_plus(request, 1)
         if form_type == 'del_good':
-            del_good(request)
+            del_good(request)'''
     if request.user.is_authenticated:
         user_cart = GoodsInShoppingCart.objects.filter(user=request.user)
         context["cart"] = user_cart
@@ -121,8 +121,10 @@ def cart_logic(request):
     return context
 
 
-def goods_count_minus_plus(request, change):
-    product_id = request.POST.get("product_id")
+def goods_count_minus_plus(request, pk,product_id ):
+    change = 1
+    if pk == 0:
+        change = -1
     if request.user.is_authenticated:
         product = GoodsInShoppingCart.objects.get(id=product_id)
         product.count += change
@@ -135,6 +137,7 @@ def goods_count_minus_plus(request, change):
             if product['id'] == int(product_id):
                 product['count'] += change
         request.session['shopping_cart'] = cure_shopping_cart_dict
+    return HttpResponse("")
 
 
 def change_goods_count(request):

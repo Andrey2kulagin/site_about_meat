@@ -14,6 +14,6 @@ urlpatterns = [
     path("add_to_cart", add_to_cart, name="add_to_cart"),
     path("lk", lk_view, name="lk"),
     path("send_application", send_application, name="send_application"),
-    path("goods_count_minus_plus/<int:pk>", goods_count_minus_plus, name="goods_count_minus_plus"),
+    path("goods_count_minus_plus/<int:pk>/<str:product_id>", goods_count_minus_plus, name="goods_count_minus_plus"),
 
 ]

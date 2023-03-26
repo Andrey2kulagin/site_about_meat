@@ -3,51 +3,54 @@
 {% endif %}
 {% load static %}
 <div class="shopping_cart">
-  <div class="product__card blog_cart cart_card">
-    <div class="image_title_block">
-      <span class="product__card__title shopping_cart_title">Говяжья вырезка</span>
-      <img class="product__card__img shopping_cart_img" src="img/2504.970.jpg">
+    {% for product in cart %}
+    <div class="product__card blog_cart cart_card">
+        <div class="image_title_block">
+            <span class="product__card__title shopping_cart_title">{{product.product}} {{product.id}}</span>
+            <img class="product__card__img shopping_cart_img" src="img/2504.970.jpg">
+        </div>
+        <div class="shopping_cart_centr_info">
+            <div class="flex_container">
+                <span class="product__card__cost shopping_cart_cost"> 380 руб./кг</span>
+                <div class="shopping_cart_count_div">
+                    <input type="hidden" value="{% url 'goods_count_minus_plus'  pk=1 product_id=product.id %}" id="plus_url{{product.id}}">
+                        <input type="hidden" value="{% url 'goods_count_minus_plus'  pk=0 product_id=product.id %}" id="minus_url{{product.id}}">
+
+                        <button class="product__card_change_btn shopping_cart_cange_btn" name="-"
+                                id="change_btn_minus{{product.id}}">&#8722;
+                        </button>
+                    <input class="product__card__count__input shopping_cart_input" id="{{product.id}}" name="count"
+                           type="number" min="1"
+                           value="{{product.count}}">
+                    <button class="product__card_change_btn shopping_cart_cange_btn" id="change_btn_plus{{product.id}}"
+                            name="+">
+                        &#43;
+                    </button>
+                </div>
+                <p class="cart_sum">1900 руб.</p>
+                <img class="trash_icon" src="{% static 'butcher_shop_app/img/trash.svg' %}">
+            </div>
+        </div>
     </div>
-    <div class="shopping_cart_centr_info">
-      <div class="flex_container">
-      <span class="product__card__cost shopping_cart_cost"> 380 руб./кг</span>
-        <div class="shopping_cart_count_div">
-      <button class="product__card_change_btn shopping_cart_cange_btn" name="-" id="change_btn_minus">&#8722;</button>
-            <input type="hidden" value="{% url 'goods_count_minus_plus' %}" id="change_url" name="{{product.id}}">
-      <input class="product__card__count__input shopping_cart_input" id="1" name="count" type="number" min="3"
-        value="1">
-      <button class="product__card_change_btn shopping_cart_cange_btn" id="change_btn_plus" name="+">
-        &#43;
-      </button>
-          </div>
-        <p class="cart_sum">1900 руб.</p>
-        <img class="trash_icon" src="{% static 'butcher_shop_app/img/trash.svg' %}">
-      </div>
-    </div>
-  </div>
 </div>
-
-
-
-
+{% endfor %}
 
 
 <button class="standart__button">
-  Добавить ещё
+    Добавить ещё
 </button>
 
-  <div class="cart_summary">
+<div class="cart_summary">
     <span class="total_p">Итого:</span>
     <span class="cart_summury_count">3 позиции</span>
     <span class="cart_summury_kgs">18 кг</span>
     <span class="cart_summury_rub">15800 руб.</span>
-  </div>
+</div>
 <button class="standart__button create_order_btn">
-  Сделать заказ
+    Сделать заказ
 </button>
-<hr class="header__line" />
-<script src="{% static 'butcher_shop_app/js/change_count_cart.js' %}"></script>
-
+<hr class="header__line"/>
+<script src="{% static 'butcher_shop_app/js/change_count_cart_m_p.js' %}"></script>
 
 
 {% for product in cart %}
@@ -83,7 +86,7 @@
 </div>
 {% endfor %}
 <div>
-   Итого кол-во {{product_count}}
+    Итого кол-во {{product_count}}
     Итого кг {{products_count_kg}}
     Итого стоимость {{total_cost}}
 </div>
