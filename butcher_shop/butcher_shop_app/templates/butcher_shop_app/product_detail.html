@@ -4,17 +4,37 @@
 {% endblock %}
 
 {% block content %}
-{{product.name}}
-{{product.cost}}
-{{product.description|safe}}
-<img src="{{product.image.url}}" width="500" height="250">
-<form method="post">
+{% load static %}
+<div class="product_detail">
+    <div class="product_detail_header">{{product.name}}</div>
+    <img class="blog_img product_detail_img" src="{{product.image.url}}">
+    <div class="product_discribtion">{{product.description|safe}}</div>
+    <form method="post" style="display: flex; justify-content: space-between;">
         {% csrf_token %}
-        <input type="hidden" name="form_type" value="shopping_cart">
-        <input type="hidden" name="product_id" value="{{product.id}}">
-        <input type="hidden" name="product_name" value="{{product.name}}">
-        <input name="count" type="number" min="1">
-        <button type="submit">Добавить в корзину</button>
-    </form>
+        <div class="cart_summary">
+            <span class="cart_summury_rub"> <span id="product_cost">{{product.cost}}</span> руб./кг</span>
+            <input type="hidden" name="form_type" value="shopping_cart">
+            <input type="hidden" name="product_id" value="{{product.id}}">
+            <input type="hidden" name="product_name" value="{{product.name}}">
+            <div class="product_detail_change_div">
+                <button type="button" class="product__card_change_btn change_btn"
+                        onclick="sub_cart_count('detail_input')">-
+                </button>
 
+                <input class="product__card__count__input product_detail_input" id="detail_input" name="count"
+                       type="number" min="1"
+                       value="1">
+                <button type="button" class="product__card_change_btn change_btn"
+                        onclick="add_cart_count('detail_input')">+
+                </button>
+            </div>
+            <span class="cart_summury_rub" id="product_sum">{{product.cost}}</span>
+            <button type="submit" class="standart__button" style="margin: 0;">В корзину</button>
+        </div>
+    </form>
+</div>
+<hr class="header__line"/>
+
+<script src="{% static 'butcher_shop_app/js/detail_change_btn.js' %}"></script>
+<script src="{% static 'butcher_shop_app/js/detail_sum.js' %}"></script>
 {% endblock %}

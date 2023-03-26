@@ -1,22 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Страница регистрации</title>
-</head>
-<body>
-{{errors}}
-<form method="post">
-    {% csrf_token %}
-    {{reg_form.username}}<br>
-    {{reg_form.first_name}}<br>
-    {{reg_form.email}}<br>
-    {{add_info_form.phone_number}}<br>
-    {{add_info_form.address}}<br>
-    {{reg_form.password1}}<br>
-    {{reg_form.password2}}<br>
-    <button type="submit">Зарегистрироваться</button>
-</form>
-<a href="http://127.0.0.1:8000/login">Страница входа</a>
-</body>
-</html>
+{% extends 'butcher_shop_app/base.html' %}
+{% block title %}
+<title>Страница регистрации</title>
+{% endblock %}
+{% block content%}
+<div class="reg_div">
+    <div class="login_header">Регистрация</div>
+    <span>{{errors}}</span>
+    <form method="post">
+        {% csrf_token %}
+        <div class="base_input login_input">
+            {{reg_form.username}}
+        </div>
+        <div class="base_input login_input">
+            {{reg_form.first_name}}
+        </div>
+        <div class="base_input login_input">
+            {{reg_form.email}}
+        </div>
+        <div class="base_input login_input">
+            {{add_info_form.phone_number}}
+        </div>
+        <div class="base_input login_input">
+            {{add_info_form.address}}
+        </div>
+        <div class="base_input login_input">
+            {{reg_form.password1}}
+        </div>
+        <div class="base_input login_input">
+            {{reg_form.password2}}
+        </div>
+        <button type="submit" class="standart__button">
+            Регистрация
+        </button>
+    </form>
+    <span class="or">или</span>
+    <a href="{% url 'login' %}" class="standart__button">
+        Войти
+    </a>
+</div>
+
+{% endblock %}

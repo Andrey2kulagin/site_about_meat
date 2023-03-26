@@ -1,32 +1,47 @@
 {% extends 'butcher_shop_app/base.html' %}
 {% block title %}
-<title>{{poduct.name}}</title>
+<title>Заказ</title>
 {% endblock %}
 {% block content %}
-
-{{total_cost}}<br>
-{{product_count}}<br>
-{{products_count_kg}}<br>
-{% if add_product_in_cart%}
-{{add_product_in_cart}} <a href="http://127.0.0.1:8000/product_list">К каталогу</a>
-{% else %}
 {% if order_send_status %}
-Заказ успешно отправлен, когда мы его получим, мы свяжемся с вами
-<a href="http://127.0.0.1:8000/">Перейти на главную страницу</a>
-{% endif %}
-<form method="post">
-    {{errors}}
-    {% csrf_token %}
-    {{form.phone_number}}
-    {{form.address}}
-    {{form.delivery_date}}
-    {{form.comment}}
-    {{form.total_cost}}
-    {{form.total_items}}
-    {{form.total_kgs}}
-    <button type="submit">подтвердить</button>
-</form>
-корзина
+<h1>Заказ успешно отправлен, когда мы его получим, мы свяжемся с вами</h1>
+<a class="standart__button" href="{% url 'index' %}">Главная страница</a>
+{%else %}
 {% include "butcher_shop_app/cart_base.html" %}
+
+{% if add_product_in_cart%}
+{% else %}
+
+<div class="reg_div order_div">
+    <div class="login_header">Данные заказа</div>
+    <form method="post">
+        {{errors}}
+        {% csrf_token %}
+        <div class="base_input login_input">
+            {{form.name}}
+        </div>
+
+        <div class="base_input login_input">
+            {{form.phone_number}}
+        </div>
+
+        <div class="base_input login_input">
+            {{form.address}}
+        </div>
+
+        <div class="base_input login_input">
+            {{form.delivery_date}}
+        </div>
+
+        <div class="base_input login_input">
+            {{form.comment}}
+        </div>
+        <button type="submit" class="standart__button">
+            Отправить
+        </button>
+    </form>
+</div>
 {% endif %}
+{% endif %}
+
 {% endblock %}

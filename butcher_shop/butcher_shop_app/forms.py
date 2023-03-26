@@ -23,18 +23,18 @@ class ApplicationForm(forms.ModelForm):
 
 
 class UserRegistrationsForm(UserCreationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={"autocomplete": "username", "class": "username__input",
+    username = forms.CharField(widget=forms.TextInput(attrs={"autocomplete": "username", "class": "login_input username_input",
                                                              "placeholder": "Введите имя пользователя"}))
     first_name = forms.CharField(widget=forms.TextInput(
-        attrs={"autocomplete": "name", "class": "name__input", "placeholder": "Как к вам можно обращаться?"}))
+        attrs={"autocomplete": "name", "class": "login_input reg_name_input", "placeholder": "Как к вам можно обращаться?"}))
     email = forms.EmailField(widget=forms.TextInput(
-        attrs={"autocomplete": "email", "class": "email__input", "placeholder": "Введите email"}))
+        attrs={"autocomplete": "email", "class": "login_input email_input", "placeholder": "Введите email"}))
     password1 = forms.CharField(
         widget=forms.PasswordInput(
-            attrs={"autocomplete": "new-password", "class": "password__input", "placeholder": "Введите пароль"}),
+            attrs={"autocomplete": "new-password", "class": "login_input password_input", "placeholder": "Введите пароль"}),
     )
     password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={"autocomplete": "new-password", "class": "password__input",
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password", "class": "login_input password_input",
                                           "placeholder": "Введите пароль ещё раз"}),
     )
 
@@ -63,9 +63,9 @@ class UserLoginForm(AuthenticationForm):
 
 class UserAdditionalInfoForm(forms.ModelForm):
     phone_number = forms.CharField(widget=forms.TextInput(
-        attrs={'class': 'username__input', 'placeholder': 'Введите телефон для связи'}))
-    address = forms.CharField(required=False, max_length=250, widget=forms.Textarea(
-        attrs={"class": "contact__input", "placeholder": "Ваш адрес"}))
+        attrs={'class': 'login_input reg_phone_input', 'placeholder': 'Введите ваш телефон'}))
+    address = forms.CharField(required=False, max_length=250, widget=forms.TextInput(
+        attrs={"class": "login_input address_input", "placeholder": "Введите ваш адрес"}))
 
     class Meta:
         model = UserAdditionalInfo
@@ -78,14 +78,16 @@ class MyDateInput(forms.DateInput):
 
 
 class OrderForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'login_input reg_name_input', 'placeholder': 'Имя получателя'}))
     phone_number = forms.CharField(widget=forms.TextInput(
-        attrs={'class': 'username__input', 'placeholder': 'Введите телефон для связи'}))
-    address = forms.CharField(required=False, max_length=250, widget=forms.Textarea(
-        attrs={"class": "contact__input", "placeholder": "Адресс доставки"}))
+        attrs={'class': 'login_input reg_phone_input', 'placeholder': 'Введите телефон для связи'}))
+    address = forms.CharField(required=False, max_length=250, widget=forms.TextInput(
+        attrs={"class": "login_input address_input", "placeholder": "Адресс доставки"}))
     delivery_date = forms.DateTimeField(label="Дата доставки", widget=MyDateInput(
-        attrs={"class": "date_input", }))
-    comment = forms.CharField(max_length=250, widget=forms.Textarea(
-        attrs={"class": "comment_input", "placeholder": "Комментарии"}))
+        attrs={"class": "login_input order_data_input", }))
+    comment = forms.CharField(max_length=250, widget=forms.TextInput(
+        attrs={"class": "login_input order_comment_input", "placeholder": "Комментарии"}))
 
     class Meta:
         model = Order

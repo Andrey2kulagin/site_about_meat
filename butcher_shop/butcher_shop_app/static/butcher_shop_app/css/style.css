@@ -621,3 +621,13 @@ footer{
 .product_detail{
   position: relative;
 }
+.order_div{
+    height: 750px;
+}
+.order_data_input{
+  background: url("../img/calendar.svg") no-repeat 5px;
+  background-size: 40px;
+  display: flex;
+  align-items: center; /* выравнивание по вертикали */
+  justify-content: center; /* выравнивание по горизонтали */
+}

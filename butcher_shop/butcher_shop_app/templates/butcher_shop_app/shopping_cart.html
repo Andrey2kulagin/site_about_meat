@@ -5,4 +5,8 @@
 {% block content %}
 {{cart_len}}<br>
 {% include "butcher_shop_app/cart_base.html" %}
+<a href="{% url 'order_create' %}"  class="standart__button create_order_btn">
+    Сделать заказ
+</a>
+<hr class="header__line"/>
 {% endblock %}

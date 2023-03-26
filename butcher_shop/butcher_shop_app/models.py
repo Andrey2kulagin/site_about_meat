@@ -53,6 +53,7 @@ class GoodsInShoppingCart(models.Model):
 
 class Order(models.Model):
     my_id = models.CharField(max_length=250)
+    name = models.CharField(max_length=250, null=True)
     created = models.DateTimeField()
     is_processed = models.BooleanField(default=False)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
