@@ -29,14 +29,7 @@
 </div>
 {% load static %}
 
-<form method="get">
-    {% csrf_token %}
-    {% for category in categories %}
-    <input type="checkbox" value="{{category}}" name="category">
-    <span>{{category}}</span>
-    {% endfor %}
-    <button type="submit" id="filter_button">Отфильтровать</button>
-</form>
+
 {% for product in products %}
 <h1><a href="{% url 'product_detail' pk=product.id %}">{{product}}</a></h1>
 <img src="{{product.image.url}}" width="200" height="100">
